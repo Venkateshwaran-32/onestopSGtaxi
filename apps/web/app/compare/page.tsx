@@ -11,6 +11,10 @@ import { QuoteSkeleton } from '@/components/quote-skeleton';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { SurgeSparkline, WaitSaveCard } from '@/components/wait-save-card';
 import { RouteMap } from '@/components/route-map-loader';
+import { VehicleFilter, type VehicleFilterMode } from '@/components/vehicle-filter';
+import { FareHistoryStrip } from '@/components/fare-history-strip';
+import { ShareButton } from '@/components/share-button';
+import { PullToRefresh } from '@/components/pull-to-refresh';
 import { useAppStore } from '@/lib/store';
 import { launchDeeplink } from '@/lib/launch-deeplink';
 import { track } from '@/lib/analytics';
@@ -42,6 +46,7 @@ export default function ComparePage() {
   const savedRoutes = useAppStore((s) => s.savedRoutes);
 
   const [sortMode, setSortMode] = React.useState<SortMode>('cheapest');
+  const [vehicleFilter, setVehicleFilter] = React.useState<VehicleFilterMode>('all');
   const [savedAs, setSavedAs] = React.useState<string | null>(null);
 
   React.useEffect(() => {
@@ -62,12 +67,17 @@ export default function ComparePage() {
   }, [pickup, dropoff, mutation]);
 
   const sortedQuotes = React.useMemo(() => {
-    const quotes = [...(mutation.data?.quotes ?? [])];
-    quotes.sort((a, b) =>
+    const all = mutation.data?.quotes ?? [];
+    const filtered = all.filter((q) => {
+      if (vehicleFilter === 'all') return true;
+      return q.operator.category === vehicleFilter;
+    });
+    const arr = filtered.slice();
+    arr.sort((a, b) =>
       sortMode === 'cheapest' ? a.fareSGD.mid - b.fareSGD.mid : a.etaMinutes - b.etaMinutes,
     );
-    return quotes;
-  }, [mutation.data, sortMode]);
+    return arr;
+  }, [mutation.data, sortMode, vehicleFilter]);
 
   const { cheapestId, fastestId } = React.useMemo(() => {
     const quotes = mutation.data?.quotes;
@@ -138,6 +148,15 @@ export default function ComparePage() {
           <p className="truncate text-sm font-medium leading-tight">{pickup.label}</p>
           <p className="truncate text-xs text-muted-foreground">→ {dropoff.label}</p>
         </div>
+        {mutation.data && (
+          <ShareButton
+            pickup={pickup}
+            dropoff={dropoff}
+            quotes={mutation.data.quotes}
+            routeKm={mutation.data.route.distanceKm}
+            routeMin={mutation.data.route.durationMinutes}
+          />
+        )}
         <Button
           variant="ghost"
           size="icon"
@@ -149,6 +168,12 @@ export default function ComparePage() {
         </Button>
         <ThemeSwitcher />
       </header>
+      <PullToRefresh
+        onRefresh={async () => {
+          await mutation.mutateAsync({ pickup, dropoff });
+        }}
+        enabled={!!pickup && !!dropoff}
+      />
 
       <div className="mt-4">
         <RouteMap
@@ -208,22 +233,35 @@ export default function ComparePage() {
         </>
       )}
 
-      <div className="mt-4 inline-flex w-fit gap-1 rounded-full bg-secondary p-1">
-        {(['cheapest', 'fastest'] as const).map((mode) => (
-          <button
-            key={mode}
-            type="button"
-            onClick={() => setSortMode(mode)}
-            className={
-              'rounded-full px-4 py-1.5 text-xs font-medium capitalize transition ' +
-              (sortMode === mode
-                ? 'bg-background text-foreground shadow-sm'
-                : 'text-muted-foreground hover:text-foreground')
-            }
-          >
-            {mode}
-          </button>
-        ))}
+      {mutation.data && (
+        <div className="mt-3">
+          <FareHistoryStrip
+            pickup={pickup}
+            dropoff={dropoff}
+            currentCheapestSGD={cheapestNow}
+          />
+        </div>
+      )}
+
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <div className="inline-flex w-fit gap-1 rounded-full bg-secondary p-1">
+          {(['cheapest', 'fastest'] as const).map((mode) => (
+            <button
+              key={mode}
+              type="button"
+              onClick={() => setSortMode(mode)}
+              className={
+                'rounded-full px-4 py-1.5 text-xs font-medium capitalize transition ' +
+                (sortMode === mode
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground')
+              }
+            >
+              {mode}
+            </button>
+          ))}
+        </div>
+        <VehicleFilter value={vehicleFilter} onChange={setVehicleFilter} />
       </div>
 
       <section className="mt-4 space-y-3 pb-4">

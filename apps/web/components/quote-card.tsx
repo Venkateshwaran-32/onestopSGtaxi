@@ -1,9 +1,11 @@
 'use client';
 
-import { ArrowRight, Clock, ShieldCheck, Sparkles, TrendingUp } from 'lucide-react';
+import { ArrowRight, Clock, Info, ShieldCheck, Sparkles, TrendingUp } from 'lucide-react';
 import type { OperatorMeta, Quote } from '@onestopsgtaxi/shared';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Popover } from '@/components/popover';
+import { getConfidenceExplain } from '@/lib/confidence';
 import { cn } from '@/lib/utils';
 
 interface QuoteCardProps {
@@ -24,6 +26,7 @@ const CONFIDENCE_COPY: Record<Quote['confidence'], string> = {
 
 export function QuoteCard({ quote, isCheapest, isFastest, onBook }: QuoteCardProps) {
   const surge = quote.surgeMultiplier > 1.05;
+  const explain = getConfidenceExplain(quote.confidence, quote.operatorId);
 
   return (
     <Card className="overflow-hidden">
@@ -56,10 +59,24 @@ export function QuoteCard({ quote, isCheapest, isFastest, onBook }: QuoteCardPro
               <Clock className="size-3" />
               ~{quote.etaMinutes} min away
             </span>
-            <span className="inline-flex items-center gap-1">
-              <ShieldCheck className="size-3" />
-              {CONFIDENCE_COPY[quote.confidence]}
-            </span>
+            <Popover
+              trigger={
+                <span className="inline-flex items-center gap-1 text-muted-foreground transition hover:text-foreground">
+                  <ShieldCheck className="size-3" />
+                  {CONFIDENCE_COPY[quote.confidence]}
+                  <Info className="size-2.5 opacity-50" />
+                </span>
+              }
+              align="start"
+            >
+              <p className="text-sm font-semibold">{explain.title}</p>
+              <p className="mt-0.5 text-[11px] uppercase tracking-wider text-muted-foreground">
+                {explain.errorBand}
+              </p>
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                {explain.description}
+              </p>
+            </Popover>
             {surge && (
               <span className="inline-flex items-center gap-1 text-amber-700 dark:text-amber-300">
                 <TrendingUp className="size-3" />

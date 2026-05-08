@@ -65,11 +65,14 @@ export interface ForecastPoint {
   surgeMultiplier: number;
 }
 
+export type VehicleCategory = 'taxi' | 'phv';
+
 export interface OperatorMeta {
   id: OperatorId;
   displayName: string;
   brandColor: string;
   logoSlug: string;
+  category: VehicleCategory;
   iosAppStoreId?: string;
   androidPackageId?: string;
 }
