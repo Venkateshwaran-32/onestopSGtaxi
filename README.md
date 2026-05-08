@@ -1,117 +1,144 @@
 # OneStopSGTaxi
 
-Skyscanner for Singapore ride-hail. Compare estimated fares and ETAs across Grab, Gojek, TADA, Ryde, Zig, Geolah, Trans-Cab, and ComfortDelGro — then deeplink straight into the cheapest one.
+Skyscanner for Singapore ride-hail and buses. Compare estimated fares + ETAs across **Grab, Gojek, TADA, Ryde, Zig, Geolah, Trans-Cab and ComfortDelGro**, then deeplink straight into the cheapest one. Plus a live-arrival aware bus + MRT planner that finds combinations Google Maps misses.
 
-## Status
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/onestopsgtaxi)
 
-V1 webapp complete (all 5 weeks). Ready to deploy to Vercel.
+---
 
-## Stack
+## What's in the box
 
-Next.js 15 (App Router) · TypeScript strict · Tailwind v4 · shadcn/ui · Supabase-ready · Mapbox-ready · Turborepo + pnpm.
+### Taxi & ride-hail
+- 8 SG operators compared side-by-side (deterministic rate-card model + per-operator surge profiles)
+- 90-minute fare forecast with a "wait & save" coach
+- Pin & Watch with **real web push notifications** (service worker + VAPID + Vercel cron)
+- Departure planner — reverse search by deadline
+- Trip splitter (TSP optimizer for ≤6 dropoffs)
+- Spend tracker — monthly totals, per-operator breakdown
+- Reverse Compare from Receipt — paste a Grab receipt, see what TADA/Ryde would have charged
+- Crowd-sourced fare calibration (paste actual fare or Tesseract.js OCR a receipt)
 
-## Repo layout
+### Bus & MRT
+- **Transit Hopper** — live LTA bus arrivals + 1-transfer planner across **5,201 SG bus stops + 601 services**
+- Last-Mile Combo — taxi → MRT → final taxi/walk, ranked
+- Same-stop transfers (V1); 400m walking transfers (V1.1)
 
-```
-apps/
-  web/                  Next.js webapp (frontend + API routes)
-packages/
-  shared/               Shared TypeScript types (Operator, Quote, Route)
-  pricing/              Fare estimation engine — one estimator per operator + surge model
-  operators/            Operator config + deeplink builders (8 operators)
-docs/
-  operator-research/    Per-operator: rate cards, deeplink specs, ToS notes
-  partnerships/         Affiliate outreach tracker
-  decisions/            ADRs (0001 = webapp-first decision)
-```
+### Bots & integrations
+- Telegram bot (chat-to-quote with deeplink keyboard)
+- Discord + Slack outbound webhooks
+- Pluggable channel adapter interface
+
+### Foundation
+- 5 themes (Default / Red & Black / Bumblebee / Ladybug / Raccoon)
+- PWA with dynamic icons and "Add to Home Screen" support
+- `/admin/health` system status page (so you know what's wired)
+- `/feedback` form for beta users
+- Two product modes: `taxi` (default) and `sgbuses` (hides taxi nav)
+
+## Quick deploy
+
+The fastest path to a real deployment:
+
+1. Click the deploy button above (clones the repo to your Vercel)
+2. Add the env vars below as you collect them
+3. Visit `<your-vercel>.vercel.app/admin/health` to see what's wired
+
+Total time: ~30 minutes if all signups go smoothly. Detailed runbook in `docs/launch/deploy-runbook.md`.
+
+## Environment variables
+
+The app **runs without any of these** — every external service has a fallback (haversine routing, curated SG places list, no-op analytics, in-memory persistence). Set them progressively to upgrade.
+
+| Variable | Required? | What it unlocks | Free tier? |
+|---|---|---|---|
+| `LTA_DATAMALL_KEY` | recommended | Live bus arrivals on `/transit`. Without it, falls back to headway estimates. | yes — sign up at https://datamall.lta.gov.sg/ |
+| `MAPBOX_ACCESS_TOKEN` | recommended | Real road routing on `/compare`. Without it, falls back to haversine. | yes — 50,000 loads/month |
+| `NEXT_PUBLIC_GOOGLE_PLACES_KEY` | recommended | Full SG address autocomplete. Without it, falls back to a curated 20-place list. | yes — $200/mo credit |
+| `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` | recommended | Cross-user crowd calibration, push subscription persistence, feedback storage. Without, all client-side. | yes |
+| `NEXT_PUBLIC_POSTHOG_KEY` + `NEXT_PUBLIC_POSTHOG_HOST` | optional | Anonymous funnel analytics. Without, no-op. | yes |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` + `VAPID_PRIVATE_KEY` + `VAPID_SUBJECT` | optional | Web push notifications for Pin & Watch. Without, subscribe button is hidden. | yes — generate locally with `pnpm dlx web-push generate-vapid-keys` |
+| `TELEGRAM_BOT_TOKEN` | optional | Telegram chat-to-quote bot. Without, webhook returns ok-dormant. | free — talk to @BotFather |
+| `DISCORD_WEBHOOK_URL` | optional | Discord outbound notifications. | free — server settings |
+| `SLACK_WEBHOOK_URL` | optional | Slack outbound notifications. | free — workspace settings |
+| `CRON_SECRET` | recommended for prod | Bearer auth for cron endpoints. | local — `openssl rand -hex 32` |
+| `NEXT_PUBLIC_PRODUCT_MODE` | optional | `taxi` (default) or `sgbuses` (hides taxi nav, makes /transit home) | n/a |
+| `NEXT_PUBLIC_SITE_URL` | optional | Used in `sitemap.xml` and OG meta. | n/a |
 
 ## Local development
 
 ```bash
-# install
 pnpm install
-
-# run on http://localhost:3000  (auto-falls-back to 3001 if 3000 in use)
 pnpm dev
 ```
 
-The app runs **without any API keys** thanks to fallback paths:
-- Routing falls back to a haversine + Singapore urban-speed model.
-- Place autocomplete falls back to a curated list of 20 popular SG locations (Orchard, Changi, MBS, NUS, etc.).
-- Analytics is a no-op until a PostHog key is set.
+Webapp at `http://localhost:3000` (or 3001 if 3000's taken). Pitch site:
 
-Add real keys when ready (see Environment below) and the app upgrades automatically.
+```bash
+cd pitch-website
+python3 -m http.server 5500
+```
 
-## Environment variables
+## Architecture
 
-Copy `apps/web/.env.example` to `apps/web/.env.local` and fill in:
+```
+apps/web/                   Next.js 15 (App Router) + TypeScript strict
+  ├── app/
+  │   ├── api/              Server routes (quote, calibrate, transit/plan, feedback,
+  │   │                     push/{subscribe,cron-poll}, channels/post,
+  │   │                     telegram/webhook, places, health)
+  │   ├── admin/health/     System status page
+  │   ├── (pages)/          UI pages: /, /compare, /plan, /combo, /split, /spend,
+  │   │                     /saved, /transit, /transit/about, /reverse, /feedback
+  │   └── layout.tsx        Splash + theme + analytics + push bootstrap
+  ├── components/           shadcn/ui-style primitives + feature components
+  ├── lib/                  Pricing engine, calibration, transit planner, channels,
+  │                         push, themes, store (Zustand+localStorage)
+  └── data/sg-bus-topology.json   Real LTA bus topology (5,201 stops + 601 services)
 
-| Var | What it unlocks |
-|---|---|
-| `MAPBOX_ACCESS_TOKEN` | Real road routing via Mapbox Directions API (replaces haversine fallback) |
-| `NEXT_PUBLIC_GOOGLE_PLACES_KEY` | Full Google Places autocomplete for any SG address |
-| `NEXT_PUBLIC_POSTHOG_KEY` | Anonymous product analytics (page views, search/deeplink funnel) |
-| `NEXT_PUBLIC_POSTHOG_HOST` | PostHog host (default `https://us.i.posthog.com`) |
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL (for future auth + cross-device sync) |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
-| `NEXT_PUBLIC_SITE_URL` | Public URL — used in `sitemap.xml` and OG meta |
+packages/
+  ├── shared/               Cross-package types (Operator, Quote, Route, FareSubmission)
+  ├── pricing/              Per-operator estimators + surge model + forecast
+  └── operators/            Operator metadata + deeplink builders
 
-## Deploy to Vercel
+pitch-website/              Standalone HTML/CSS/JS pitch deck (5 themes)
+docs/
+  ├── decisions/            ADRs (webapp-first, Telegram bot)
+  ├── launch/               Beta playbook, deploy runbook
+  ├── migrations/           Supabase SQL (calibration, feedback)
+  ├── operator-research/    Per-operator research (Grab Farefeed history, etc.)
+  └── partnerships/         Outreach drafts per operator
+plans/                      Strategic plans (live pricing, transit optimizer,
+                            infra readiness + App Store path, launch real)
+```
 
-1. Push the repo to GitHub.
-2. Import the repo at [vercel.com/new](https://vercel.com/new).
-3. Vercel auto-detects Next.js + the `vercel.json` (region `sin1`).
-4. Add the environment variables above in **Settings → Environment Variables**.
-5. Deploy. The first deploy will be live in ~60 seconds.
+## Tech
 
-That's it. No App Store, no Play Store, no $99/year fee.
+Next.js 15 · TypeScript strict · Tailwind v4 · shadcn/ui · Leaflet (OpenStreetMap) · Supabase · Mapbox · LTA DataMall · PostHog · Tesseract.js (browser-side OCR) · Turborepo + pnpm workspaces
 
-## Scripts
+## Data sources
 
-| Command | What it does |
-|---|---|
-| `pnpm dev` | Run the Next.js dev server |
-| `pnpm build` | Production build |
-| `pnpm typecheck` | Type-check all packages |
-| `pnpm lint` | Lint all packages |
-| `pnpm test` | Run tests in all packages |
-| `pnpm format` | Format with Prettier |
+- **Bus topology**: [data.busrouter.sg](https://data.busrouter.sg/) — community mirror of LTA + Datamall data, republished under Singapore Open Data Licence (commercial use OK).
+- **Live bus arrivals**: [LTA DataMall](https://datamall.lta.gov.sg/) — official Singapore Land Transport Authority API.
+- **Maps**: [OpenStreetMap](https://www.openstreetmap.org/copyright) tiles, [Mapbox](https://www.mapbox.com/) routing.
+- **Address autocomplete**: [Google Places](https://developers.google.com/maps/documentation/places/web-service).
+- **Fare estimates**: deterministic rate-card model in `packages/pricing/src/estimators/<operator>.ts`. Calibrated by user submissions.
 
-## Routes
+## Status
 
-| Path | Purpose |
-|---|---|
-| `/` | Landing — search form, recent + saved routes |
-| `/compare` | Compare results — sort cheapest/fastest, deeplink out |
-| `/saved` | Saved routes + history |
-| `/legal/privacy` | Privacy policy |
-| `/legal/terms` | Terms of use |
-| `/api/quote` `POST` | Fare comparison endpoint (validated with Zod) |
-| `/api/places?q=` `GET` | Place autocomplete |
-| `/manifest.webmanifest` | PWA manifest |
-| `/sitemap.xml`, `/robots.txt` | SEO |
+V1 webapp shipped. Real LTA bus topology wired. Crowd-sourced fare calibration live. Deployment-ready. **Operator partnerships pending** — see `plans/01-live-pricing-strategy.md`.
 
-## How fares are computed
+What's *not* in V1:
+- Native iOS/Android apps (PWA only — Capacitor scaffold deferred until Apple Dev fee + V1 retention proof)
+- Live Grab/Gojek fare quotes (Farefeed pulled by Grab in 2024 — see `docs/operator-research/grab.md`)
+- Cross-border (JB, KL)
+- B2B / corporate accounts
 
-For each operator the engine combines:
+## License
 
-1. A published rate card (base + per-km + per-min + booking fee), versioned in `packages/pricing/src/estimators/<op>.ts`.
-2. A time-of-day × day-of-week × weather surge model, per operator (`packages/pricing/src/surge.ts`).
-3. Distance + duration from Mapbox (or haversine fallback).
+Code: MIT (use it however you like).
+Bus topology data: [Singapore Open Data Licence](https://data.gov.sg/open-data-licence) (commercial use OK).
+Operator brand names + logos: property of their respective owners. We're independent and not affiliated.
 
-Each quote carries a **confidence indicator** (`HIGH` / `MEDIUM` / `LOW`) and a fare *range*, not a point — the disclaimer is always shown. The user is told that the final fare is set by the operator app.
+## Contributing
 
-## Where to look first
-
-- Add or edit an operator: `packages/pricing/src/estimators/<op>.ts` (rate card) and `packages/operators/src/deeplinks.ts` (deeplink).
-- Tune the surge model: `packages/pricing/src/surge.ts`.
-- Change the search UI: `apps/web/components/search-form.tsx` and `apps/web/components/place-autocomplete.tsx`.
-- Add a new SG fallback place: `apps/web/lib/sg-places.ts`.
-- Update legal copy: `apps/web/app/legal/{privacy,terms}/page.tsx`.
-
-## Plan + decisions
-
-Full V1 plan: `~/.claude/plans/twinkling-kindling-axolotl.md`.
-Why webapp first: `docs/decisions/0001-webapp-first.md`.
-Operator research template: `docs/operator-research/README.md`.
-Partnership outreach: `docs/partnerships/README.md`.
+Issues and PRs welcome. For substantial changes, open an issue first to discuss. The repo follows the patterns in `docs/decisions/` and `plans/`.
