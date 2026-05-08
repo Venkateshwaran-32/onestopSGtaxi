@@ -50,8 +50,8 @@
         </div>
         <div class="hero-stats">
           <div class="hero-stat"><strong>8</strong><span>Operators compared</span></div>
+          <div class="hero-stat"><strong>5200</strong><span>SG bus stops live</span></div>
           <div class="hero-stat"><strong>90</strong><span>Minute price forecast</span></div>
-          <div class="hero-stat"><strong>5</strong><span>Weeks to V1</span></div>
           <div class="hero-stat"><strong>0</strong><span>SGD/month to run</span></div>
         </div>
       </div>
@@ -141,28 +141,33 @@
         <div class="feature-tier">
           <div class="tier-header">
             <span class="tier-badge tier-killer">GAME CHANGERS</span>
-            <span class="tier-desc">"Wait, this exists?" — the four reasons people open the app three times a week</span>
+            <span class="tier-desc">"Wait, this exists?" — the five reasons people open the app three times a week</span>
           </div>
           <div class="feature-grid">
             <article class="feature-card feature-hero-card">
               <span class="feature-tag">The Showstopper</span>
+              <h3>Transit Hopper — live bus combos Maps misses</h3>
+              <p>The next direct bus is in 12 min. But Bus 51 arrives in 2 min and at Buona Vista Bus 111 arrives in 2 min — saving you 12+ min. Google Maps reads the same LTA feed, but optimises for "reliable" over "fastest." We optimise for "fastest *right now*" and surface confidence per leg. 5,200 SG stops, ~400 services, live BusArrivalv2 every search. The first SG-tuned planner that beats the global one.</p>
+            </article>
+            <article class="feature-card feature-card-killer">
+              <span class="feature-tag-sm">Cross-app Surge</span>
               <h3>Wait &amp; Save Coach</h3>
-              <p>A 90-minute price forecast for every operator. Surge isn't synchronized — different platforms peak at different moments. When waiting genuinely saves you money, we tell you exactly how long and how much. When it doesn't, we stay quiet. No upsell prompts, no fake urgency, no LLM bills. Just deterministic surge math that updates the moment you reopen the page.</p>
+              <p>A 90-minute price forecast for every taxi operator. Surge isn't synchronized across platforms. When waiting genuinely saves you money, we tell you exactly how long and how much. When it doesn't, we stay quiet. Deterministic surge math, no LLM bills.</p>
             </article>
             <article class="feature-card feature-card-killer">
               <span class="feature-tag-sm">The Sticky One</span>
-              <h3>Pin &amp; Watch — Surge Alarms</h3>
-              <p>Pin your daily route. Set your line: "anything under S$15." Close the app. Five hours later, web push pings: <em>"TADA just dropped to S$13.20 — book before 8:42pm."</em> The first ride-hail price-drop alert in Singapore. The retention loop Grab can't copy without admitting their pricing isn't fair.</p>
+              <h3>Pin &amp; Watch — real web push</h3>
+              <p>Pin your daily route. Set "anything under S$15." Close the app. Web push fires when surge dips: <em>"TADA dropped to S$13.20."</em> Service worker + VAPID + a 5-min cron poller — production-grade, not a fake "we&apos;ll add this later" feature. The retention loop Grab can't copy without admitting their pricing isn't fair.</p>
             </article>
             <article class="feature-card feature-card-killer">
               <span class="feature-tag-sm">Reverse Search</span>
               <h3>Departure Planner</h3>
-              <p>Type a deadline: <em>"Be at Changi by 7pm."</em> The planner walks the forecast backward through every operator and tells you the exact leave-time + cheapest operator that gets you there on time. <em>"Leave at 6:18pm via TADA, S$22, arrives 6:51pm."</em> Or "leave at 6:32pm, save S$5, arrives 6:58pm." Trade-offs you can act on.</p>
+              <p>Type a deadline: <em>"Be at Changi by 7pm."</em> The planner walks the forecast backward across every operator and tells you the exact leave-time + cheapest operator that gets you there on time. Trade-offs you can act on, not abstract minimums.</p>
             </article>
             <article class="feature-card feature-card-killer">
               <span class="feature-tag-sm">SG-Only Edge</span>
               <h3>Last-Mile Combo</h3>
-              <p>The one trick no operator will ever build because it cannibalises their fare. <em>"MRT to Clementi + 8-min taxi from there = S$9 total. Direct taxi all the way = S$23."</em> Pulls live MRT data from LTA DataMall, layers a final ride-hail leg, ranks combined options. Singapore-shaped. Massive savings on long routes from the heartlands.</p>
+              <p>The trick no operator will build because it cannibalises their fare. <em>"MRT to Clementi + 8-min taxi from there = S$9. Direct taxi = S$23."</em> Layers MRT segments under a final ride-hail leg. Massive savings on long routes from the heartlands.</p>
             </article>
           </div>
         </div>
@@ -242,38 +247,53 @@
         <div class="roadmap-track">
           <div class="track-header">
             <span class="track-badge track-rider">RIDER FEATURES</span>
-            <span class="tier-desc">What every commuter should be able to do by Q3 2026</span>
+            <span class="tier-desc">Half of these were "on-deck" two weeks ago. The next half ships through Q3.</span>
           </div>
           <div class="roadmap-grid">
             <article class="roadmap-card roadmap-shipped">
               <div class="roadmap-status">SHIPPED</div>
+              <h3>Transit Hopper (live arrivals)</h3>
+              <p>LTA BusArrivalv2 + 5,200-stop topology + 1-transfer planner. Direct vs transfer combos ranked by total time using <em>actual</em> next-bus arrival times.</p>
+            </article>
+            <article class="roadmap-card roadmap-shipped">
+              <div class="roadmap-status">SHIPPED</div>
               <h3>Departure Planner</h3>
-              <p>Reverse search by deadline. "Be at Changi by 7pm" → exact leave-time + cheapest operator. Built on the existing forecast engine, no new infra.</p>
+              <p>Reverse search by deadline. "Be at Changi by 7pm" → leave-time + cheapest operator that arrives on time.</p>
+            </article>
+            <article class="roadmap-card roadmap-shipped">
+              <div class="roadmap-status">SHIPPED</div>
+              <h3>Pin &amp; Watch (full web push)</h3>
+              <p>Service worker + VAPID + 5-min cron poller. Real OS-level notifications when surge dips below your line.</p>
+            </article>
+            <article class="roadmap-card roadmap-shipped">
+              <div class="roadmap-status">SHIPPED</div>
+              <h3>Last-Mile Combo</h3>
+              <p>Taxi → MRT → final taxi/walk, ranked. ~10 min savings on long heartland → CBD trips. /combo page.</p>
+            </article>
+            <article class="roadmap-card roadmap-shipped">
+              <div class="roadmap-status">SHIPPED</div>
+              <h3>Reverse Compare from Receipt</h3>
+              <p>OCR a Grab receipt, see what TADA / Ryde / Zig would have charged at the same time. Doubles as a calibration submission. /reverse page.</p>
+            </article>
+            <article class="roadmap-card roadmap-shipped">
+              <div class="roadmap-status">SHIPPED</div>
+              <h3>Crowd-sourced calibration</h3>
+              <p>Paste your actual fare or screenshot a receipt. Tesseract.js OCR runs locally. Each user calibrates their own estimates today; cross-user when Supabase wired up.</p>
             </article>
             <article class="roadmap-card roadmap-flight">
               <div class="roadmap-status">IN-FLIGHT</div>
-              <h3>Pin &amp; Watch (lite)</h3>
-              <p>Pin saved routes with a target price. Home screen shows live status: green if current cheapest is below target, amber if above. Web push notifications layer on top in V1.5.</p>
+              <h3>Multi-channel bots</h3>
+              <p>Telegram (shipped). Discord + Slack adapters refactored into common interface (shipped). WhatsApp Business deferred — needs Meta business verification.</p>
             </article>
             <article class="roadmap-card roadmap-deck">
               <div class="roadmap-status">ON-DECK</div>
-              <h3>Pin &amp; Watch (push)</h3>
-              <p>Service worker + VAPID + a small backend cron polls pinned routes every 5 min. Web push fires when surge dips. Telegram/WhatsApp delivery as opt-in alternatives — SG riders already live there.</p>
+              <h3>Algorithm v2 — RAPTOR + reliability</h3>
+              <p>2-transfer bidirectional search, per-leg confidence scoring (heuristic now, ML once we have telemetry), cross-mode optimisation (bus + taxi combined). The honest answer to "what beats Google Maps."</p>
             </article>
             <article class="roadmap-card roadmap-deck">
               <div class="roadmap-status">ON-DECK</div>
-              <h3>Last-Mile Combo</h3>
-              <p>LTA DataMall integration. MRT + final ride-hail leg, ranked. The single feature no operator will ever ship because it cannibalises their fares. Massive savings on routes from the heartlands.</p>
-            </article>
-            <article class="roadmap-card roadmap-deck">
-              <div class="roadmap-status">ON-DECK</div>
-              <h3>Reverse Compare from Receipt</h3>
-              <p>Paste a Grab receipt total. We tell you what TADA, Ryde, Zig would have charged. Builds the "you overpaid" feedback loop that changes booking habits for life.</p>
-            </article>
-            <article class="roadmap-card roadmap-deck">
-              <div class="roadmap-status">ON-DECK</div>
-              <h3>Multi-channel Bots</h3>
-              <p>Telegram bot, WhatsApp Business, Discord and Slack integrations. Type "Orchard to Changi" in chat, get the cheapest operator and a deeplink back. Singapore lives in chat — meet them there.</p>
+              <h3>App Store + Play Store</h3>
+              <p>Capacitor scaffold around the Next.js webapp. Native push, native share, native splash. iOS + Android in stores once Apple Developer fee + first review pass.</p>
             </article>
           </div>
         </div>
@@ -281,38 +301,48 @@
         <div class="roadmap-track">
           <div class="track-header">
             <span class="track-badge track-platform">PLATFORM PLUMBING</span>
-            <span class="tier-desc">Boring infrastructure that keeps the riders boring — silent failure is the enemy</span>
+            <span class="tier-desc">Boring infra that makes the rider features boring. Silent failure is the enemy.</span>
           </div>
           <div class="roadmap-grid">
+            <article class="roadmap-card roadmap-shipped">
+              <div class="roadmap-status">SHIPPED</div>
+              <h3>Health endpoint + admin status page</h3>
+              <p>/api/health returns service config matrix; /admin/health renders green/grey indicators. First glance after every deploy answers "is everything wired?"</p>
+            </article>
+            <article class="roadmap-card roadmap-shipped">
+              <div class="roadmap-status">SHIPPED</div>
+              <h3>Channel adapter interface</h3>
+              <p>Pluggable delivery layer with Telegram + Discord + Slack implementations. /api/channels/post normalises outbound. Optional Bearer-secret protection.</p>
+            </article>
+            <article class="roadmap-card roadmap-shipped">
+              <div class="roadmap-status">SHIPPED</div>
+              <h3>Cron-secret-protected endpoints</h3>
+              <p>Push poller, calibration refresh, future jobs all gate on CRON_SECRET when set. Vercel cron headers route past it; random callers get 401.</p>
+            </article>
+            <article class="roadmap-card roadmap-shipped">
+              <div class="roadmap-status">SHIPPED</div>
+              <h3>Product-mode flag (sgbuses split)</h3>
+              <p>NEXT_PUBLIC_PRODUCT_MODE=sgbuses repoints the same codebase to a transit-only product. Future sgbuses.com is one config away.</p>
+            </article>
             <article class="roadmap-card roadmap-flight">
               <div class="roadmap-status">IN-FLIGHT</div>
-              <h3>Cron &amp; Release Observability</h3>
-              <p>Scheduled jobs (deeplink health check, rate-card refresh, surge alarm poller) report to a status page and page on silent failure. Releases publish with version + commit SHA so you can answer "what changed?" in under a minute.</p>
+              <h3>Telemetry-driven rate-card refresh</h3>
+              <p>Calibration system shipped (Phase 0 of plans/01). Once Supabase is wired and ~10k submissions accumulate, the model retrains on real fares. Confidence tightens automatically.</p>
             </article>
             <article class="roadmap-card roadmap-deck">
               <div class="roadmap-status">ON-DECK</div>
-              <h3>Channel Setup Hardening</h3>
-              <p>Pluggable delivery layer for WhatsApp, Telegram, Discord, Slack. One adapter interface, four implementations, retries and backoff baked in. Surge alerts route via the user's preferred channel without operator-side changes.</p>
+              <h3>Multi-provider key handling</h3>
+              <p>Unified config surface for Mapbox, Google Places, Supabase, LTA, future LLM providers. Per-key cost monitoring, automatic fallback to free-tier defaults. Never blocks a search because one vendor degraded.</p>
             </article>
             <article class="roadmap-card roadmap-deck">
               <div class="roadmap-status">ON-DECK</div>
-              <h3>Security Tightening</h3>
-              <p>Audit the surface: memory writes (Zustand persistence), auto-replies (chat bot responses), native command links (deeplink construction), explicit user approvals on multi-stop bookings. A clear yes/no on every privileged action.</p>
+              <h3>Long-running worker resilience</h3>
+              <p>The Pin &amp; Watch poller is a long-running worker. Must survive deploys, region failovers without dropping pinned routes. Idempotent jobs, durable queue, replay on restart.</p>
             </article>
             <article class="roadmap-card roadmap-deck">
               <div class="roadmap-status">ON-DECK</div>
-              <h3>Multi-provider Key Handling</h3>
-              <p>One config surface for OpenAI, Gemini, Tavily, Mapbox, Google Places, custom providers. Per-key cost monitoring, automatic fallback, fail-open to free-tier defaults. Never blocks a search because one vendor degraded.</p>
-            </article>
-            <article class="roadmap-card roadmap-deck">
-              <div class="roadmap-status">ON-DECK</div>
-              <h3>Long-running Worker Resilience</h3>
-              <p>The Pin &amp; Watch poller is a long-running worker. It must survive deploys, region failovers, and skill changes without dropping pinned routes. Idempotent jobs, durable queue, replay on restart.</p>
-            </article>
-            <article class="roadmap-card roadmap-deck">
-              <div class="roadmap-status">ON-DECK</div>
-              <h3>Telemetry-driven Rate-Card Refresh</h3>
-              <p>Once we have real search volume, the surge model trains on observed fare drift instead of seed values. Confidence levels (HIGH/MEDIUM/LOW) tighten over time. The model gets better while you sleep.</p>
+              <h3>Security audit</h3>
+              <p>Memory writes (Zustand persistence), auto-replies (chat bot), deeplink construction (URL injection surface), explicit-approval on multi-stop bookings. /security-review on every milestone.</p>
             </article>
           </div>
         </div>
@@ -337,20 +367,28 @@
       <div class="section-inner">
         <p class="section-kicker">§ 07 — Live Demo</p>
         <h2>It's already <span class="accent">built and running.</span></h2>
-        <p class="section-lead">Not a deck. Not a Figma. A working webapp that returns 8 ranked operator quotes in under a second on free-tier infrastructure. Five weeks from idea to deploy-ready.</p>
+        <p class="section-lead">Not a deck. Not a Figma. 22 routes shipped, 5,200+ SG bus stops indexed, taxi+transit+mixed-mode planning all live. Production build green; runs on free-tier infra.</p>
         <div class="demo-box">
-          <div class="demo-header"><span class="demo-dot" style="background:#ff5f57"></span><span class="demo-dot" style="background:#febc2e"></span><span class="demo-dot" style="background:#28c840"></span><span class="demo-url">localhost:3000</span></div>
+          <div class="demo-header"><span class="demo-dot" style="background:#ff5f57"></span><span class="demo-dot" style="background:#febc2e"></span><span class="demo-dot" style="background:#28c840"></span><span class="demo-url">localhost:3001</span></div>
           <div class="demo-body">
-            <p class="demo-text"><strong>Stack:</strong> Next.js 15 (App Router) + TypeScript strict<br><strong>UI:</strong> Tailwind v4 + shadcn/ui + Leaflet maps<br><strong>Data:</strong> Supabase + Mapbox + PostHog<br><strong>Repo:</strong> Turborepo monorepo, pnpm workspaces<br><strong>Cost:</strong> SGD 0/month on free tiers</p>
+            <p class="demo-text"><strong>Stack:</strong> Next.js 15 (App Router) + TypeScript strict<br><strong>UI:</strong> Tailwind v4 + shadcn/ui + Leaflet maps<br><strong>Data:</strong> Supabase + Mapbox + LTA DataMall + PostHog<br><strong>Repo:</strong> Turborepo monorepo, pnpm workspaces<br><strong>Push:</strong> Service worker + VAPID + Vercel cron<br><strong>Cost:</strong> SGD 0/month on free tiers</p>
             <div class="demo-events">
               <span class="demo-event-chip">Compare 8 operators</span>
+              <span class="demo-event-chip">Transit hopper (LTA live)</span>
               <span class="demo-event-chip">Wait &amp; Save coach</span>
-              <span class="demo-event-chip">Voice search</span>
+              <span class="demo-event-chip">Pin &amp; Watch (web push)</span>
+              <span class="demo-event-chip">Departure planner</span>
+              <span class="demo-event-chip">Last-mile combo</span>
+              <span class="demo-event-chip">Reverse compare</span>
               <span class="demo-event-chip">Trip splitter (TSP)</span>
+              <span class="demo-event-chip">Voice search</span>
               <span class="demo-event-chip">Live route map</span>
               <span class="demo-event-chip">Spend tracker</span>
+              <span class="demo-event-chip">Crowd calibration + OCR</span>
+              <span class="demo-event-chip">Telegram + Discord + Slack</span>
               <span class="demo-event-chip">PWA install</span>
               <span class="demo-event-chip">5 themes</span>
+              <span class="demo-event-chip">/admin/health</span>
             </div>
           </div>
         </div>
