@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { Place } from '@onestopsgtaxi/shared';
+import type { ThemeId } from './themes';
 
 export interface SavedRoute {
   id: string;
@@ -33,6 +34,9 @@ interface AppState {
   history: SearchHistoryItem[];
   addHistory: (pickup: Place, dropoff: Place) => void;
   clearHistory: () => void;
+
+  themeId: ThemeId;
+  setTheme: (id: ThemeId) => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -89,6 +93,9 @@ export const useAppStore = create<AppState>()(
           };
         }),
       clearHistory: () => set({ history: [] }),
+
+      themeId: 'default',
+      setTheme: (id) => set({ themeId: id }),
     }),
     {
       name: 'onestopsgtaxi-store',
@@ -97,6 +104,7 @@ export const useAppStore = create<AppState>()(
         currentSearch: state.currentSearch,
         savedRoutes: state.savedRoutes,
         history: state.history,
+        themeId: state.themeId,
       }),
     },
   ),

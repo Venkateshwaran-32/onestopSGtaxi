@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ArrowLeft, Bookmark, Check, Loader2, Route as RouteIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { QuoteCard } from '@/components/quote-card';
+import { ThemeSwitcher } from '@/components/theme-switcher';
 import { useAppStore } from '@/lib/store';
 import { launchDeeplink } from '@/lib/launch-deeplink';
 import { track } from '@/lib/analytics';
@@ -121,6 +122,7 @@ export default function ComparePage() {
         >
           {savedAs || isAlreadySaved ? <Check className="size-4" /> : <Bookmark className="size-4" />}
         </Button>
+        <ThemeSwitcher />
       </header>
 
       {mutation.data && (

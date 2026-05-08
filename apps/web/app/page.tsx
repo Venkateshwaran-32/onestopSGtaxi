@@ -3,6 +3,7 @@ import { Sparkles } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { SearchForm } from '@/components/search-form';
 import { RecentRoutes } from '@/components/recent-routes';
+import { ThemeSwitcher } from '@/components/theme-switcher';
 
 const OPERATORS = [
   { name: 'Grab', color: '#00B14F' },
@@ -24,13 +25,14 @@ export default function HomePage() {
           </div>
           <span className="text-base font-semibold tracking-tight">OneStopSGTaxi</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <Link
             href="/saved"
             className="rounded-full px-3 py-1 text-xs font-medium text-muted-foreground transition hover:text-foreground"
           >
             Saved
           </Link>
+          <ThemeSwitcher />
           <span className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider text-secondary-foreground">
             Beta
           </span>

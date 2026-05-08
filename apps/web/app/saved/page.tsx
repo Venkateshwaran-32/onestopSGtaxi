@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Bookmark, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { ThemeSwitcher } from '@/components/theme-switcher';
 import { useAppStore } from '@/lib/store';
 
 export default function SavedPage() {
@@ -39,7 +40,8 @@ export default function SavedPage() {
             <ArrowLeft className="size-4" />
           </Link>
         </Button>
-        <h1 className="text-base font-semibold">Saved & history</h1>
+        <h1 className="flex-1 text-base font-semibold">Saved & history</h1>
+        <ThemeSwitcher />
       </header>
 
       <section className="mt-6">

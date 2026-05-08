@@ -48,6 +48,98 @@
   --ring: oklch(0.556 0 0);
 }
 
+/* Red & black — moody dark with a red glow */
+.theme-redblack {
+  --background: oklch(0.135 0.015 25);
+  --foreground: oklch(0.97 0.01 25);
+  --card: oklch(0.18 0.02 25);
+  --card-foreground: oklch(0.97 0.01 25);
+  --popover: oklch(0.18 0.02 25);
+  --popover-foreground: oklch(0.97 0.01 25);
+  --primary: oklch(0.6 0.24 25);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.25 0.04 25);
+  --secondary-foreground: oklch(0.97 0.01 25);
+  --muted: oklch(0.22 0.02 25);
+  --muted-foreground: oklch(0.7 0.04 25);
+  --accent: oklch(0.32 0.08 25);
+  --accent-foreground: oklch(0.97 0.01 25);
+  --destructive: oklch(0.7 0.22 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.32 0.06 25);
+  --input: oklch(0.28 0.04 25);
+  --ring: oklch(0.6 0.24 25);
+}
+
+/* Bumblebee — black-and-yellow with high contrast */
+.theme-bumblebee {
+  --background: oklch(0.13 0.01 90);
+  --foreground: oklch(0.96 0.13 95);
+  --card: oklch(0.18 0.015 90);
+  --card-foreground: oklch(0.96 0.13 95);
+  --popover: oklch(0.18 0.015 90);
+  --popover-foreground: oklch(0.96 0.13 95);
+  --primary: oklch(0.88 0.18 95);
+  --primary-foreground: oklch(0.13 0.01 90);
+  --secondary: oklch(0.22 0.02 90);
+  --secondary-foreground: oklch(0.96 0.13 95);
+  --muted: oklch(0.22 0.02 90);
+  --muted-foreground: oklch(0.78 0.08 95);
+  --accent: oklch(0.88 0.18 95);
+  --accent-foreground: oklch(0.13 0.01 90);
+  --destructive: oklch(0.65 0.24 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.88 0.18 95);
+  --input: oklch(0.28 0.04 90);
+  --ring: oklch(0.88 0.18 95);
+}
+
+/* Ladybug — bright red with deep black accents on warm cream */
+.theme-ladybug {
+  --background: oklch(0.97 0.015 25);
+  --foreground: oklch(0.16 0.005 25);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.16 0.005 25);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.16 0.005 25);
+  --primary: oklch(0.55 0.24 25);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.93 0.04 25);
+  --secondary-foreground: oklch(0.16 0.005 25);
+  --muted: oklch(0.94 0.02 25);
+  --muted-foreground: oklch(0.45 0.06 25);
+  --accent: oklch(0.16 0.005 25);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.55 0.24 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.16 0.005 25);
+  --input: oklch(0.85 0.03 25);
+  --ring: oklch(0.55 0.24 25);
+}
+
+/* Raccoon — masked grayscale with subtle warm undertone */
+.theme-raccoon {
+  --background: oklch(0.92 0.005 60);
+  --foreground: oklch(0.18 0.01 60);
+  --card: oklch(0.98 0.005 60);
+  --card-foreground: oklch(0.18 0.01 60);
+  --popover: oklch(0.98 0.005 60);
+  --popover-foreground: oklch(0.18 0.01 60);
+  --primary: oklch(0.22 0.01 60);
+  --primary-foreground: oklch(0.96 0.005 60);
+  --secondary: oklch(0.85 0.005 60);
+  --secondary-foreground: oklch(0.22 0.01 60);
+  --muted: oklch(0.86 0.005 60);
+  --muted-foreground: oklch(0.4 0.01 60);
+  --accent: oklch(0.78 0.01 60);
+  --accent-foreground: oklch(0.18 0.01 60);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.7 0.01 60);
+  --input: oklch(0.8 0.005 60);
+  --ring: oklch(0.4 0.01 60);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
