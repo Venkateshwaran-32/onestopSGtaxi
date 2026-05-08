@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${baseUrl}/`, lastModified: now, priority: 1.0 },
     { url: `${baseUrl}/transit`, lastModified: now, priority: 0.8 },
+    { url: `${baseUrl}/transit/about`, lastModified: now, priority: 0.7 },
     { url: `${baseUrl}/plan`, lastModified: now, priority: 0.7 },
     { url: `${baseUrl}/combo`, lastModified: now, priority: 0.7 },
     { url: `${baseUrl}/split`, lastModified: now, priority: 0.6 },

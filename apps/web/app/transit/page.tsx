@@ -108,6 +108,12 @@ export default function TransitPage() {
           </Link>
         </Button>
         <h1 className="flex-1 text-base font-semibold">Transit hopper</h1>
+        <Link
+          href="/transit/about"
+          className="rounded-full px-3 py-1 text-xs font-medium text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+        >
+          How it works
+        </Link>
         <ThemeSwitcher />
       </header>
 
