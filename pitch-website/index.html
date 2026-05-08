@@ -18,6 +18,7 @@
         <a href="#solution">Solution</a>
         <a href="#pipelines">Journeys</a>
         <a href="#features">Features</a>
+        <a href="#roadmap">Roadmap</a>
         <a href="#sg">For SG</a>
         <a href="#demo">Demo</a>
         <a href="#ask">The Ask</a>
@@ -140,23 +141,28 @@
         <div class="feature-tier">
           <div class="tier-header">
             <span class="tier-badge tier-killer">GAME CHANGERS</span>
-            <span class="tier-desc">The stuff that makes people open the app three times a week</span>
+            <span class="tier-desc">"Wait, this exists?" — the four reasons people open the app three times a week</span>
           </div>
           <div class="feature-grid">
             <article class="feature-card feature-hero-card">
               <span class="feature-tag">The Showstopper</span>
               <h3>Wait &amp; Save Coach</h3>
-              <p>A 90-minute price forecast for every operator. Surge isn't synchronized — different platforms peak at different moments. When waiting genuinely saves you money, we tell you exactly how long and how much. When it doesn't, we stay quiet. No upsell prompts. No fake urgency. Just deterministic surge math, no LLM bills, no hallucinations. The forecast updates the moment you re-open the page.</p>
+              <p>A 90-minute price forecast for every operator. Surge isn't synchronized — different platforms peak at different moments. When waiting genuinely saves you money, we tell you exactly how long and how much. When it doesn't, we stay quiet. No upsell prompts, no fake urgency, no LLM bills. Just deterministic surge math that updates the moment you reopen the page.</p>
             </article>
             <article class="feature-card feature-card-killer">
-              <span class="feature-tag-sm">Real Map</span>
-              <h3>Live Route Map</h3>
-              <p>Pickup pin. Dropoff pin. Polyline between them. Auto-fits to bounds. Built on Leaflet + free OpenStreetMap tiles — no API keys, no rate limits. When you add a Mapbox token the polyline upgrades from straight-line to actual road geometry. Feels like Grab. Costs nothing.</p>
+              <span class="feature-tag-sm">The Sticky One</span>
+              <h3>Pin &amp; Watch — Surge Alarms</h3>
+              <p>Pin your daily route. Set your line: "anything under S$15." Close the app. Five hours later, web push pings: <em>"TADA just dropped to S$13.20 — book before 8:42pm."</em> The first ride-hail price-drop alert in Singapore. The retention loop Grab can't copy without admitting their pricing isn't fair.</p>
             </article>
             <article class="feature-card feature-card-killer">
-              <span class="feature-tag-sm">Hands-Free</span>
-              <h3>Voice-to-Route</h3>
-              <p>Say "Orchard to Changi". The browser's Web Speech API does the transcription locally. A deterministic regex parser splits on "to/from", fuzzy-matches against the SG places list and your recent history. Both fields filled. No API call. No AI cost. Works offline-first.</p>
+              <span class="feature-tag-sm">Reverse Search</span>
+              <h3>Departure Planner</h3>
+              <p>Type a deadline: <em>"Be at Changi by 7pm."</em> The planner walks the forecast backward through every operator and tells you the exact leave-time + cheapest operator that gets you there on time. <em>"Leave at 6:18pm via TADA, S$22, arrives 6:51pm."</em> Or "leave at 6:32pm, save S$5, arrives 6:58pm." Trade-offs you can act on.</p>
+            </article>
+            <article class="feature-card feature-card-killer">
+              <span class="feature-tag-sm">SG-Only Edge</span>
+              <h3>Last-Mile Combo</h3>
+              <p>The one trick no operator will ever build because it cannibalises their fare. <em>"MRT to Clementi + 8-min taxi from there = S$9 total. Direct taxi all the way = S$23."</em> Pulls live MRT data from LTA DataMall, layers a final ride-hail leg, ranks combined options. Singapore-shaped. Massive savings on long routes from the heartlands.</p>
             </article>
           </div>
         </div>
@@ -169,19 +175,34 @@
           </div>
           <div class="feature-grid">
             <article class="feature-card">
+              <span class="feature-tag-sm">Real Map</span>
+              <h3>Live Route Map</h3>
+              <p>Pickup pin. Dropoff pin. Polyline. Auto-fits to bounds. Leaflet + free OpenStreetMap tiles — no API keys, no rate limits. Add a Mapbox token and the polyline upgrades to actual road geometry. Feels like Grab, costs nothing.</p>
+            </article>
+            <article class="feature-card">
               <span class="feature-tag-sm">Group Algo</span>
               <h3>Trip Splitter (TSP)</h3>
-              <p>One pickup, up to six dropoffs. Brute-force permutation finds the cheapest stop order. Real savings — the worst order can cost 30% more than the best. CDG Premier and Grab Plus support multi-stop natively; punch in the optimized order, save real money.</p>
+              <p>One pickup, up to six dropoffs. Brute-force permutation finds the cheapest stop order. The worst order can cost 30% more than the best. CDG Premier and Grab Plus support multi-stop natively — punch in the optimized order, save real money.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-tag-sm">Hands-Free</span>
+              <h3>Voice-to-Route</h3>
+              <p>Say "Orchard to Changi". The browser's Web Speech API transcribes locally — no API call, no AI cost. A deterministic parser splits on "to/from" and fuzzy-matches against the SG places list and your recent history.</p>
             </article>
             <article class="feature-card">
               <span class="feature-tag-sm">Expense Layer</span>
               <h3>Spend Tracker</h3>
-              <p>Every tap on Book auto-logs the operator, route, and estimated fare. Monthly totals. Per-operator breakdown. Per-trip list. The expense report no operator gives you. We disclose plainly: it tracks intended fares (what you tapped), not real receipts.</p>
+              <p>Every Book tap auto-logs operator, route, and estimated fare. Monthly totals. Per-operator breakdown. Per-trip list. The expense report no operator gives you. Honest disclosure: tracks intended fares, not receipts.</p>
             </article>
             <article class="feature-card">
               <span class="feature-tag-sm">Honest Signal</span>
-              <h3>Surge Forecast Sparkline</h3>
-              <p>A tiny 90-minute trend chart, inline with the route info. Trending down means surge will ease. Trending up means book now. Glanceable in 200ms. Built on the same forecast engine, surfaced where it's useful instead of buried in a settings menu.</p>
+              <h3>Forecast Sparkline</h3>
+              <p>A tiny 90-minute trend chart inline with the route info. Trending down = surge easing, wait. Trending up = book now. Glanceable in 200ms. Built on the same forecast engine, surfaced where it's useful.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-tag-sm">Receipt Layer</span>
+              <h3>Reverse Compare</h3>
+              <p>After a Grab ride, paste your receipt. We tell you what TADA, Ryde, Zig, Geolah would have charged for the same route at the same time. The "you overpaid" feedback loop that builds the muscle to check before booking, not after.</p>
             </article>
           </div>
         </div>
@@ -211,10 +232,97 @@
       </div>
     </section>
 
+    <!-- ROADMAP -->
+    <section class="section" id="roadmap">
+      <div class="section-inner">
+        <p class="section-kicker">§ 05 — What's Next</p>
+        <h2>The roadmap. <span class="accent">No vapourware.</span></h2>
+        <p class="section-lead">Each item is scoped, costed, and either shipped, in-flight, or genuinely on deck. Two tracks: features riders see, and the platform plumbing that keeps it boring in production.</p>
+
+        <div class="roadmap-track">
+          <div class="track-header">
+            <span class="track-badge track-rider">RIDER FEATURES</span>
+            <span class="tier-desc">What every commuter should be able to do by Q3 2026</span>
+          </div>
+          <div class="roadmap-grid">
+            <article class="roadmap-card roadmap-shipped">
+              <div class="roadmap-status">SHIPPED</div>
+              <h3>Departure Planner</h3>
+              <p>Reverse search by deadline. "Be at Changi by 7pm" → exact leave-time + cheapest operator. Built on the existing forecast engine, no new infra.</p>
+            </article>
+            <article class="roadmap-card roadmap-flight">
+              <div class="roadmap-status">IN-FLIGHT</div>
+              <h3>Pin &amp; Watch (lite)</h3>
+              <p>Pin saved routes with a target price. Home screen shows live status: green if current cheapest is below target, amber if above. Web push notifications layer on top in V1.5.</p>
+            </article>
+            <article class="roadmap-card roadmap-deck">
+              <div class="roadmap-status">ON-DECK</div>
+              <h3>Pin &amp; Watch (push)</h3>
+              <p>Service worker + VAPID + a small backend cron polls pinned routes every 5 min. Web push fires when surge dips. Telegram/WhatsApp delivery as opt-in alternatives — SG riders already live there.</p>
+            </article>
+            <article class="roadmap-card roadmap-deck">
+              <div class="roadmap-status">ON-DECK</div>
+              <h3>Last-Mile Combo</h3>
+              <p>LTA DataMall integration. MRT + final ride-hail leg, ranked. The single feature no operator will ever ship because it cannibalises their fares. Massive savings on routes from the heartlands.</p>
+            </article>
+            <article class="roadmap-card roadmap-deck">
+              <div class="roadmap-status">ON-DECK</div>
+              <h3>Reverse Compare from Receipt</h3>
+              <p>Paste a Grab receipt total. We tell you what TADA, Ryde, Zig would have charged. Builds the "you overpaid" feedback loop that changes booking habits for life.</p>
+            </article>
+            <article class="roadmap-card roadmap-deck">
+              <div class="roadmap-status">ON-DECK</div>
+              <h3>Multi-channel Bots</h3>
+              <p>Telegram bot, WhatsApp Business, Discord and Slack integrations. Type "Orchard to Changi" in chat, get the cheapest operator and a deeplink back. Singapore lives in chat — meet them there.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="roadmap-track">
+          <div class="track-header">
+            <span class="track-badge track-platform">PLATFORM PLUMBING</span>
+            <span class="tier-desc">Boring infrastructure that keeps the riders boring — silent failure is the enemy</span>
+          </div>
+          <div class="roadmap-grid">
+            <article class="roadmap-card roadmap-flight">
+              <div class="roadmap-status">IN-FLIGHT</div>
+              <h3>Cron &amp; Release Observability</h3>
+              <p>Scheduled jobs (deeplink health check, rate-card refresh, surge alarm poller) report to a status page and page on silent failure. Releases publish with version + commit SHA so you can answer "what changed?" in under a minute.</p>
+            </article>
+            <article class="roadmap-card roadmap-deck">
+              <div class="roadmap-status">ON-DECK</div>
+              <h3>Channel Setup Hardening</h3>
+              <p>Pluggable delivery layer for WhatsApp, Telegram, Discord, Slack. One adapter interface, four implementations, retries and backoff baked in. Surge alerts route via the user's preferred channel without operator-side changes.</p>
+            </article>
+            <article class="roadmap-card roadmap-deck">
+              <div class="roadmap-status">ON-DECK</div>
+              <h3>Security Tightening</h3>
+              <p>Audit the surface: memory writes (Zustand persistence), auto-replies (chat bot responses), native command links (deeplink construction), explicit user approvals on multi-stop bookings. A clear yes/no on every privileged action.</p>
+            </article>
+            <article class="roadmap-card roadmap-deck">
+              <div class="roadmap-status">ON-DECK</div>
+              <h3>Multi-provider Key Handling</h3>
+              <p>One config surface for OpenAI, Gemini, Tavily, Mapbox, Google Places, custom providers. Per-key cost monitoring, automatic fallback, fail-open to free-tier defaults. Never blocks a search because one vendor degraded.</p>
+            </article>
+            <article class="roadmap-card roadmap-deck">
+              <div class="roadmap-status">ON-DECK</div>
+              <h3>Long-running Worker Resilience</h3>
+              <p>The Pin &amp; Watch poller is a long-running worker. It must survive deploys, region failovers, and skill changes without dropping pinned routes. Idempotent jobs, durable queue, replay on restart.</p>
+            </article>
+            <article class="roadmap-card roadmap-deck">
+              <div class="roadmap-status">ON-DECK</div>
+              <h3>Telemetry-driven Rate-Card Refresh</h3>
+              <p>Once we have real search volume, the surge model trains on observed fare drift instead of seed values. Confidence levels (HIGH/MEDIUM/LOW) tighten over time. The model gets better while you sleep.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- FOR SG -->
     <section class="section" id="sg">
       <div class="section-inner">
-        <p class="section-kicker">§ 05 — Why Singapore Needs This</p>
+        <p class="section-kicker">§ 06 — Why Singapore Needs This</p>
         <h2>Value for <span class="accent">every stakeholder.</span></h2>
         <div class="stakeholder-grid">
           <article class="stakeholder-card"><h3>For Commuters</h3><ul><li>Lowest fare automatically — no app-juggling</li><li>Wait-or-go signal saves real money</li><li>Receipts and history in one place</li><li>Zero new accounts, zero new payment flows</li></ul></article>
@@ -227,7 +335,7 @@
     <!-- DEMO -->
     <section class="section section-dark" id="demo">
       <div class="section-inner">
-        <p class="section-kicker">§ 06 — Live Demo</p>
+        <p class="section-kicker">§ 07 — Live Demo</p>
         <h2>It's already <span class="accent">built and running.</span></h2>
         <p class="section-lead">Not a deck. Not a Figma. A working webapp that returns 8 ranked operator quotes in under a second on free-tier infrastructure. Five weeks from idea to deploy-ready.</p>
         <div class="demo-box">
@@ -252,7 +360,7 @@
     <!-- THE ASK -->
     <section class="section section-accent" id="ask">
       <div class="section-inner">
-        <p class="section-kicker">§ 07 — The Ask</p>
+        <p class="section-kicker">§ 08 — The Ask</p>
         <h2>What we need to make it real.</h2>
         <div class="ask-grid">
           <article class="ask-card"><div class="ask-number">1</div><h3>50 Beta Riders</h3><p>Singapore-based commuters who'll use the app for two weeks and tell us where the fare estimates are wrong. Real surge data is the moat.</p></article>

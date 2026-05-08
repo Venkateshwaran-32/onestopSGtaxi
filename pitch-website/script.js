@@ -11,10 +11,10 @@ const revealObserver = new IntersectionObserver(
   { threshold: 0.08, rootMargin: "0px 0px -60px 0px" }
 );
 
-document.querySelectorAll(".pain-grid, .feature-grid, .stakeholder-grid, .ask-grid, .solution-flow").forEach((grid) => {
-  const children = grid.querySelectorAll(".pain-card, .feature-card, .flow-step, .stakeholder-card, .ask-card");
+document.querySelectorAll(".pain-grid, .feature-grid, .stakeholder-grid, .ask-grid, .solution-flow, .roadmap-grid").forEach((grid) => {
+  const children = grid.querySelectorAll(".pain-card, .feature-card, .flow-step, .stakeholder-card, .ask-card, .roadmap-card");
   children.forEach((child, i) => {
-    child.dataset.delay = String(i * 100);
+    child.dataset.delay = String(i * 80);
     revealObserver.observe(child);
   });
 });
