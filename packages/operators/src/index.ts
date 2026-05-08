@@ -1,4 +1,4 @@
-import type { OperatorId, OperatorMeta, Route } from '@onestopsgtaxi/shared';
+import type { OperatorId, OperatorMeta } from '@onestopsgtaxi/shared';
 
 export const OPERATORS: Record<OperatorId, OperatorMeta> = {
   grab: {
@@ -53,27 +53,10 @@ export const OPERATORS: Record<OperatorId, OperatorMeta> = {
 
 export const ALL_OPERATOR_IDS: OperatorId[] = Object.keys(OPERATORS) as OperatorId[];
 
-export interface DeeplinkInput {
-  pickup: Route['pickup'];
-  dropoff: Route['dropoff'];
-  ref?: string;
-}
-
-type DeeplinkBuilder = (input: DeeplinkInput) => string;
-
-const STUB_BUILDER: DeeplinkBuilder = () => '';
-
-export const DEEPLINK_BUILDERS: Record<OperatorId, DeeplinkBuilder> = {
-  grab: STUB_BUILDER,
-  gojek: STUB_BUILDER,
-  tada: STUB_BUILDER,
-  ryde: STUB_BUILDER,
-  zig: STUB_BUILDER,
-  geolah: STUB_BUILDER,
-  transcab: STUB_BUILDER,
-  cdg: STUB_BUILDER,
-};
-
-export function buildDeeplink(operatorId: OperatorId, input: DeeplinkInput): string {
-  return DEEPLINK_BUILDERS[operatorId](input);
-}
+export {
+  buildDeeplink,
+  getStoreUrl,
+  DEEPLINK_BUILDERS,
+  OPERATOR_LINKS,
+} from './deeplinks';
+export type { DeeplinkInput, OperatorLinks } from './deeplinks';

@@ -1,18 +1,29 @@
-import type { Quote, QuoteContext, Route } from '@onestopsgtaxi/shared';
+import type { OperatorId, Quote, QuoteContext, Route } from '@onestopsgtaxi/shared';
 
 export interface Estimator {
-  operatorId: import('@onestopsgtaxi/shared').OperatorId;
+  operatorId: OperatorId;
   estimate(route: Route, ctx: QuoteContext): Quote;
 }
 
-const estimators: Estimator[] = [];
+const estimators = new Map<OperatorId, Estimator>();
 
 export function registerEstimator(estimator: Estimator): void {
-  estimators.push(estimator);
+  estimators.set(estimator.operatorId, estimator);
 }
 
 export function estimateAll(route: Route, ctx: QuoteContext): Quote[] {
-  return estimators.map((e) => e.estimate(route, ctx));
+  return Array.from(estimators.values()).map((e) => e.estimate(route, ctx));
 }
 
-export type { Estimator as EstimatorType };
+export function estimateOne(operatorId: OperatorId, route: Route, ctx: QuoteContext): Quote | null {
+  const estimator = estimators.get(operatorId);
+  if (!estimator) return null;
+  return estimator.estimate(route, ctx);
+}
+
+export function registeredOperatorIds(): OperatorId[] {
+  return Array.from(estimators.keys());
+}
+
+export { bootstrapEstimators } from './bootstrap';
+export type { RateCard, EstimatorConfig } from './estimators/_base';
