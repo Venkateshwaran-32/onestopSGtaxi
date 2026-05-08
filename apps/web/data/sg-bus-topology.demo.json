@@ -1,0 +1,60 @@
+{
+  "generatedAt": "2026-05-08T00:00:00.000Z",
+  "_note": "Demo topology covering Depot Rd → West Coast Park corridor. Replace with full LTA DataMall fetch via `pnpm topology:fetch`. Real data has ~5000 stops, ~400 services.",
+  "stops": [
+    { "code": "14141", "name": "Aft Telok Blangah Rise", "road": "Depot Rd",       "coords": { "lat": 1.2754, "lng": 103.8113 } },
+    { "code": "14149", "name": "Bef Telok Blangah Hts",  "road": "Depot Rd",       "coords": { "lat": 1.2762, "lng": 103.8125 } },
+    { "code": "14159", "name": "Telok Blangah Stn Exit B","road": "Telok Blangah Rd","coords":{ "lat": 1.2706, "lng": 103.8093 } },
+    { "code": "11201", "name": "Buona Vista Stn Exit C", "road": "North Buona Vista Rd","coords":{"lat":1.3072,"lng":103.7903 } },
+    { "code": "17009", "name": "Opp Buona Vista Stn",    "road": "North Buona Vista Rd","coords":{"lat":1.3078,"lng":103.7900 } },
+    { "code": "17171", "name": "Aft Pasir Panjang Rd",   "road": "West Coast Hwy", "coords": { "lat": 1.2913, "lng": 103.7806 } },
+    { "code": "17181", "name": "West Coast Park",        "road": "West Coast Hwy", "coords": { "lat": 1.2923, "lng": 103.7654 } },
+    { "code": "17189", "name": "Opp West Coast Park",    "road": "West Coast Hwy", "coords": { "lat": 1.2929, "lng": 103.7660 } },
+    { "code": "12029", "name": "Opp HarbourFront Stn",   "road": "Telok Blangah Rd","coords":{"lat":1.2660,"lng":103.8225 } },
+    { "code": "13141", "name": "Outram Park Stn",        "road": "New Bridge Rd",  "coords": { "lat": 1.2807, "lng": 103.8395 } }
+  ],
+  "services": [
+    { "serviceNo": "51",  "operator": "SBST", "category": "TRUNK" },
+    { "serviceNo": "61",  "operator": "SBST", "category": "TRUNK" },
+    { "serviceNo": "92",  "operator": "TTS",  "category": "TRUNK" },
+    { "serviceNo": "100", "operator": "SBST", "category": "TRUNK" },
+    { "serviceNo": "111", "operator": "SBST", "category": "TRUNK" },
+    { "serviceNo": "120", "operator": "SBST", "category": "TRUNK" },
+    { "serviceNo": "143", "operator": "SBST", "category": "TRUNK" },
+    { "serviceNo": "188", "operator": "SBST", "category": "TRUNK" },
+    { "serviceNo": "195", "operator": "SBST", "category": "TRUNK" }
+  ],
+  "routes": [
+    { "serviceNo": "51",  "direction": 1, "stopSequence": 1, "busStopCode": "14141", "distanceKm": 0.0 },
+    { "serviceNo": "51",  "direction": 1, "stopSequence": 2, "busStopCode": "14149", "distanceKm": 0.4 },
+    { "serviceNo": "51",  "direction": 1, "stopSequence": 3, "busStopCode": "14159", "distanceKm": 1.2 },
+    { "serviceNo": "51",  "direction": 1, "stopSequence": 4, "busStopCode": "11201", "distanceKm": 5.8 },
+
+    { "serviceNo": "61",  "direction": 1, "stopSequence": 1, "busStopCode": "14141", "distanceKm": 0.0 },
+    { "serviceNo": "61",  "direction": 1, "stopSequence": 2, "busStopCode": "14149", "distanceKm": 0.4 },
+    { "serviceNo": "61",  "direction": 1, "stopSequence": 3, "busStopCode": "12029", "distanceKm": 1.8 },
+
+    { "serviceNo": "100", "direction": 1, "stopSequence": 1, "busStopCode": "14159", "distanceKm": 0.0 },
+    { "serviceNo": "100", "direction": 1, "stopSequence": 2, "busStopCode": "13141", "distanceKm": 4.2 },
+
+    { "serviceNo": "111", "direction": 1, "stopSequence": 1, "busStopCode": "11201", "distanceKm": 0.0 },
+    { "serviceNo": "111", "direction": 1, "stopSequence": 2, "busStopCode": "17171", "distanceKm": 1.9 },
+    { "serviceNo": "111", "direction": 1, "stopSequence": 3, "busStopCode": "17181", "distanceKm": 3.6 },
+
+    { "serviceNo": "92",  "direction": 1, "stopSequence": 1, "busStopCode": "11201", "distanceKm": 0.0 },
+    { "serviceNo": "92",  "direction": 1, "stopSequence": 2, "busStopCode": "17171", "distanceKm": 1.9 },
+    { "serviceNo": "92",  "direction": 1, "stopSequence": 3, "busStopCode": "17189", "distanceKm": 3.6 },
+
+    { "serviceNo": "143", "direction": 1, "stopSequence": 1, "busStopCode": "13141", "distanceKm": 0.0 },
+    { "serviceNo": "143", "direction": 1, "stopSequence": 2, "busStopCode": "11201", "distanceKm": 4.0 },
+    { "serviceNo": "143", "direction": 1, "stopSequence": 3, "busStopCode": "17181", "distanceKm": 7.6 },
+
+    { "serviceNo": "188", "direction": 1, "stopSequence": 1, "busStopCode": "14141", "distanceKm": 0.0 },
+    { "serviceNo": "188", "direction": 1, "stopSequence": 2, "busStopCode": "17009", "distanceKm": 6.9 },
+
+    { "serviceNo": "195", "direction": 1, "stopSequence": 1, "busStopCode": "14141", "distanceKm": 0.0 },
+    { "serviceNo": "195", "direction": 1, "stopSequence": 2, "busStopCode": "14149", "distanceKm": 0.4 },
+    { "serviceNo": "195", "direction": 1, "stopSequence": 3, "busStopCode": "11201", "distanceKm": 6.2 },
+    { "serviceNo": "195", "direction": 1, "stopSequence": 4, "busStopCode": "17181", "distanceKm": 9.8 }
+  ]
+}
