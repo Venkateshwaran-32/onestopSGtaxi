@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import type { OperatorId, Place } from '@onestopsgtaxi/shared';
+import type { FareSubmission, OperatorId, Place } from '@onestopsgtaxi/shared';
 import type { ThemeId } from './themes';
 
 export interface SavedRoute {
@@ -30,6 +30,7 @@ export interface TripLogEntry {
   estimatedFareSGD: number;
   surgeMultiplier: number;
   loggedAt: string;
+  calibrationPromptDismissed?: boolean;
 }
 
 interface AppState {
@@ -49,9 +50,19 @@ interface AppState {
   clearHistory: () => void;
 
   tripLog: TripLogEntry[];
-  logTrip: (entry: Omit<TripLogEntry, 'id' | 'loggedAt'>) => void;
+  logTrip: (entry: Omit<TripLogEntry, 'id' | 'loggedAt'>) => string;
   removeTrip: (id: string) => void;
   clearTripLog: () => void;
+  dismissTripPrompt: (id: string) => void;
+
+  fareSubmissions: FareSubmission[];
+  addFareSubmission: (entry: Omit<FareSubmission, 'id' | 'submittedAt'>) => void;
+  removeFareSubmission: (id: string) => void;
+  clearFareSubmissions: () => void;
+
+  dismissedCalibrationOperators: OperatorId[];
+  dismissOperatorCalibration: (operatorId: OperatorId) => void;
+  resetDismissedCalibrations: () => void;
 
   themeId: ThemeId;
   setTheme: (id: ThemeId) => void;
@@ -121,20 +132,59 @@ export const useAppStore = create<AppState>()(
       clearHistory: () => set({ history: [] }),
 
       tripLog: [],
-      logTrip: (entry) =>
+      logTrip: (entry) => {
+        const id = crypto.randomUUID();
         set((s) => ({
           tripLog: [
             {
               ...entry,
-              id: crypto.randomUUID(),
+              id,
               loggedAt: new Date().toISOString(),
             },
             ...s.tripLog,
           ].slice(0, 500),
-        })),
+        }));
+        return id;
+      },
       removeTrip: (id) =>
         set((s) => ({ tripLog: s.tripLog.filter((t) => t.id !== id) })),
       clearTripLog: () => set({ tripLog: [] }),
+      dismissTripPrompt: (id) =>
+        set((s) => ({
+          tripLog: s.tripLog.map((t) =>
+            t.id === id ? { ...t, calibrationPromptDismissed: true } : t,
+          ),
+        })),
+
+      fareSubmissions: [],
+      addFareSubmission: (entry) =>
+        set((s) => ({
+          fareSubmissions: [
+            {
+              ...entry,
+              id: crypto.randomUUID(),
+              submittedAt: new Date().toISOString(),
+            },
+            ...s.fareSubmissions,
+          ].slice(0, 1000),
+        })),
+      removeFareSubmission: (id) =>
+        set((s) => ({ fareSubmissions: s.fareSubmissions.filter((f) => f.id !== id) })),
+      clearFareSubmissions: () => set({ fareSubmissions: [] }),
+
+      dismissedCalibrationOperators: [],
+      dismissOperatorCalibration: (operatorId) =>
+        set((s) =>
+          s.dismissedCalibrationOperators.includes(operatorId)
+            ? s
+            : {
+                dismissedCalibrationOperators: [
+                  ...s.dismissedCalibrationOperators,
+                  operatorId,
+                ],
+              },
+        ),
+      resetDismissedCalibrations: () => set({ dismissedCalibrationOperators: [] }),
 
       themeId: 'default',
       setTheme: (id) => set({ themeId: id }),
@@ -147,6 +197,8 @@ export const useAppStore = create<AppState>()(
         savedRoutes: state.savedRoutes,
         history: state.history,
         tripLog: state.tripLog,
+        fareSubmissions: state.fareSubmissions,
+        dismissedCalibrationOperators: state.dismissedCalibrationOperators,
         themeId: state.themeId,
       }),
     },

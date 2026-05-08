@@ -15,7 +15,9 @@ import { VehicleFilter, type VehicleFilterMode } from '@/components/vehicle-filt
 import { FareHistoryStrip } from '@/components/fare-history-strip';
 import { ShareButton } from '@/components/share-button';
 import { PullToRefresh } from '@/components/pull-to-refresh';
+import { CalibrationPrompt } from '@/components/calibration-prompt';
 import { useAppStore } from '@/lib/store';
+import { applyCalibration } from '@/lib/calibrate';
 import { launchDeeplink } from '@/lib/launch-deeplink';
 import { track } from '@/lib/analytics';
 import type { QuoteResponse } from '@/lib/api-types';
@@ -242,6 +244,10 @@ export default function ComparePage() {
           />
         </div>
       )}
+
+      <div className="mt-3">
+        <CalibrationPrompt />
+      </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <div className="inline-flex w-fit gap-1 rounded-full bg-secondary p-1">

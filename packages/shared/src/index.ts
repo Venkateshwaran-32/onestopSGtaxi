@@ -65,6 +65,41 @@ export interface ForecastPoint {
   surgeMultiplier: number;
 }
 
+export interface FareSubmission {
+  id: string;
+  operatorId: OperatorId;
+  routeKey: string;
+  pickupLabel: string;
+  dropoffLabel: string;
+  distanceKm: number;
+  estimatedFareSGD: number;
+  actualFareSGD: number;
+  source: 'manual' | 'ocr' | 'email';
+  hourOfWeek: number;
+  submittedAt: string;
+}
+
+export interface CalibrationEntry {
+  routeKey: string;
+  operatorId: OperatorId;
+  hourBucket: number;
+  medianSGD: number;
+  sampleCount: number;
+  lastSubmittedAt: string;
+}
+
+export function makeRouteKey(pickupLabel: string, dropoffLabel: string): string {
+  return `${pickupLabel.toLowerCase()}>${dropoffLabel.toLowerCase()}`;
+}
+
+export function hourOfWeek(date: Date): number {
+  return date.getDay() * 24 + date.getHours();
+}
+
+export function hourBucketOf(hour: number): number {
+  return Math.floor(hour / 4);
+}
+
 export type VehicleCategory = 'taxi' | 'phv';
 
 export interface OperatorMeta {
