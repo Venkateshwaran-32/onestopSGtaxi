@@ -142,7 +142,7 @@ export default function TransitPage() {
 
       <Card className="mt-6">
         <CardContent className="space-y-3 p-4 sm:p-5">
-          <form onSubmit={submit} className="space-y-3">
+          <form onSubmit={submit} noValidate className="space-y-3">
             <EndpointInput
               label="From"
               mode={originMode}
@@ -363,7 +363,6 @@ function EndpointInput({
           <Input
             type="text"
             inputMode="numeric"
-            pattern="\d{5}"
             maxLength={5}
             placeholder="14141"
             value={code}
