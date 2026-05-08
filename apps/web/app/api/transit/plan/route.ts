@@ -8,6 +8,7 @@ import {
   uniqueStopCodesFromCandidates,
   type TransitItinerary,
 } from '@/lib/transit/plan';
+import { getPolylineForLeg } from '@/lib/transit/polylines';
 
 const PointSchema = z.union([
   z.object({
@@ -95,6 +96,8 @@ export async function POST(req: Request) {
     dest: destPoint,
   });
 
+  await attachPolylines(finalItineraries);
+
   const originStop = resolveOriginStop(index, originPoint);
 
   return NextResponse.json({
@@ -110,6 +113,49 @@ export async function POST(req: Request) {
         ? 'Using demo topology (Depot Rd corridor). Run `pnpm topology:fetch` after setting LTA_DATAMALL_KEY for full SG coverage.'
         : null,
   });
+}
+
+async function attachPolylines(itineraries: TransitItinerary[]): Promise<void> {
+  // Collect every (serviceNo, fromCode, toCode) request needed across all
+  // itineraries; dedupe so we don't repeat work for shared bus legs.
+  const jobs = new Map<string, { serviceNo: string; fromCode: string; toCode: string }>();
+  for (const it of itineraries) {
+    for (const leg of it.legs) {
+      if (leg.mode !== 'bus' || !leg.serviceNo || !leg.fromCode || !leg.toCode) continue;
+      const key = `${leg.serviceNo}:${leg.fromCode}:${leg.toCode}`;
+      if (!jobs.has(key)) {
+        jobs.set(key, {
+          serviceNo: leg.serviceNo,
+          fromCode: leg.fromCode,
+          toCode: leg.toCode,
+        });
+      }
+    }
+  }
+
+  if (jobs.size === 0) return;
+
+  const entries = Array.from(jobs.entries());
+  const resolved = await Promise.all(
+    entries.map(async ([key, j]) => {
+      try {
+        const poly = await getPolylineForLeg(j.serviceNo, j.fromCode, j.toCode);
+        return [key, poly] as const;
+      } catch {
+        return [key, null] as const;
+      }
+    }),
+  );
+  const lookup = new Map(resolved);
+
+  for (const it of itineraries) {
+    for (const leg of it.legs) {
+      if (leg.mode !== 'bus' || !leg.serviceNo || !leg.fromCode || !leg.toCode) continue;
+      const key = `${leg.serviceNo}:${leg.fromCode}:${leg.toCode}`;
+      const poly = lookup.get(key);
+      if (poly) leg.polyline = poly;
+    }
+  }
 }
 
 function resolveOriginStop(

@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { PlaceAutocomplete } from '@/components/place-autocomplete';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { TransitItineraryCard } from '@/components/transit-itinerary';
+import { TransitMap } from '@/components/route-map-loader';
 import { track } from '@/lib/analytics';
 
 type EndpointMode = 'place' | 'stopcode';
@@ -24,6 +25,9 @@ interface TransitLegResp {
   rideMinutes: number;
   loadHint?: string;
   liveData: boolean;
+  fromCoords?: { lat: number; lng: number };
+  toCoords?: { lat: number; lng: number };
+  polyline?: Array<[number, number]>;
 }
 
 interface TransitItineraryResp {
@@ -71,6 +75,14 @@ export default function TransitPage() {
   const [destCode, setDestCode] = React.useState('');
 
   const mutation = useMutation({ mutationFn: fetchPlan });
+  const [selectedItineraryId, setSelectedItineraryId] = React.useState<string | null>(null);
+
+  // Reset selection whenever a new plan arrives — default to the cheapest (rank 0).
+  React.useEffect(() => {
+    if (mutation.data) {
+      setSelectedItineraryId(mutation.data.itineraries[0]?.id ?? null);
+    }
+  }, [mutation.data]);
 
   const canSubmit =
     (originMode === 'place' ? !!originPlace : /^\d{5}$/.test(originCode.trim())) &&
@@ -215,23 +227,61 @@ export default function TransitPage() {
             </Card>
           ) : (
             <section className="mt-6 space-y-3">
+              {(() => {
+                const active =
+                  sortedItineraries.find((it) => it.id === selectedItineraryId) ??
+                  sortedItineraries[0]!;
+                return (
+                  <TransitMap
+                    legs={active.legs.map((leg) => ({
+                      mode: leg.mode,
+                      fromName: leg.fromName,
+                      toName: leg.toName,
+                      serviceNo: leg.serviceNo,
+                      fromCoords: leg.fromCoords,
+                      toCoords: leg.toCoords,
+                      polyline: leg.polyline,
+                    }))}
+                  />
+                );
+              })()}
               <p className="text-[11px] uppercase tracking-wider text-muted-foreground">
                 {sortedItineraries.length} option{sortedItineraries.length === 1 ? '' : 's'} ·{' '}
                 {mutation.data.liveDataAvailable ? 'live arrivals' : 'headway estimates'}
+                {sortedItineraries.length > 1 && (
+                  <span className="ml-2 normal-case tracking-normal">
+                    (tap an option to draw it)
+                  </span>
+                )}
               </p>
-              {sortedItineraries.map((it, i) => (
-                <TransitItineraryCard
-                  key={it.id}
-                  rank={i + 1}
-                  isFastest={i === 0}
-                  totalMinutes={it.totalMinutes}
-                  totalWaitMinutes={it.totalWaitMinutes}
-                  totalRideMinutes={it.totalRideMinutes}
-                  legs={it.legs}
-                  rationale={it.rationale}
-                  savingsMinutes={i === 0 ? slowest - it.totalMinutes : null}
-                />
-              ))}
+              {sortedItineraries.map((it, i) => {
+                const isActive = it.id === (selectedItineraryId ?? sortedItineraries[0]?.id);
+                return (
+                  <button
+                    key={it.id}
+                    type="button"
+                    onClick={() => setSelectedItineraryId(it.id)}
+                    className={
+                      'block w-full rounded-xl text-left transition ' +
+                      (isActive
+                        ? 'ring-2 ring-primary ring-offset-2 ring-offset-background'
+                        : 'opacity-90 hover:opacity-100')
+                    }
+                    aria-pressed={isActive}
+                  >
+                    <TransitItineraryCard
+                      rank={i + 1}
+                      isFastest={i === 0}
+                      totalMinutes={it.totalMinutes}
+                      totalWaitMinutes={it.totalWaitMinutes}
+                      totalRideMinutes={it.totalRideMinutes}
+                      legs={it.legs}
+                      rationale={it.rationale}
+                      savingsMinutes={i === 0 ? slowest - it.totalMinutes : null}
+                    />
+                  </button>
+                );
+              })}
             </section>
           )}
         </>

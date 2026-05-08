@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import type { RouteMapProps, MultiStopMapProps } from './route-map';
+import type { TransitMapProps } from './transit-map';
 
 function SkeletonMap({ height }: { height?: number }) {
   return (
@@ -25,5 +26,13 @@ export const MultiStopMap = dynamic<MultiStopMapProps>(
   {
     ssr: false,
     loading: () => <SkeletonMap height={220} />,
+  },
+);
+
+export const TransitMap = dynamic<TransitMapProps>(
+  () => import('./transit-map').then((m) => m.TransitMap),
+  {
+    ssr: false,
+    loading: () => <SkeletonMap height={260} />,
   },
 );

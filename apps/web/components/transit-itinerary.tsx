@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
 type LegMode = 'bus' | 'mrt' | 'walk';
+type ConfidenceLevel = 'high' | 'medium' | 'low';
 
 interface Leg {
   mode: LegMode;
@@ -15,6 +16,7 @@ interface Leg {
   rideMinutes: number;
   loadHint?: string;
   liveData: boolean;
+  reliabilityScore?: number;
 }
 
 export interface ItineraryCardProps {
@@ -26,6 +28,20 @@ export interface ItineraryCardProps {
   rank: number;
   isFastest?: boolean;
   savingsMinutes?: number | null;
+  confidence?: ConfidenceLevel;
+}
+
+const CONFIDENCE_TINT: Record<ConfidenceLevel, string> = {
+  high: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200',
+  medium: 'bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200',
+  low: 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-200',
+};
+
+function reliabilityTone(score: number | undefined): string {
+  if (score == null) return 'text-muted-foreground';
+  if (score >= 75) return 'text-emerald-700 dark:text-emerald-400';
+  if (score >= 55) return 'text-amber-700 dark:text-amber-400';
+  return 'text-rose-700 dark:text-rose-400';
 }
 
 const MODE_ICON: Record<LegMode, React.ComponentType<{ className?: string }>> = {
@@ -55,6 +71,7 @@ export function TransitItineraryCard({
   rank,
   isFastest,
   savingsMinutes,
+  confidence,
 }: ItineraryCardProps) {
   const liveLegCount = legs.filter((l) => l.liveData).length;
 
@@ -82,6 +99,17 @@ export function TransitItineraryCard({
               <span className="inline-flex items-center gap-1 rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-sky-800 dark:bg-sky-950 dark:text-sky-200">
                 <Zap className="size-2.5" />
                 Live × {liveLegCount}
+              </span>
+            )}
+            {confidence && (
+              <span
+                className={cn(
+                  'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider',
+                  CONFIDENCE_TINT[confidence],
+                )}
+                title="Reliability confidence based on wait, transfer slack, and time of day"
+              >
+                {confidence} confidence
               </span>
             )}
           </div>
@@ -134,6 +162,14 @@ export function TransitItineraryCard({
                   )}
                   {leg.liveData && (
                     <span className="ml-2 text-sky-700 dark:text-sky-400">live</span>
+                  )}
+                  {typeof leg.reliabilityScore === 'number' && (
+                    <span
+                      className={cn('ml-2', reliabilityTone(leg.reliabilityScore))}
+                      title="Leg reliability (0-100)"
+                    >
+                      · reliability {leg.reliabilityScore}
+                    </span>
                   )}
                 </span>
               </span>
