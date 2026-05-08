@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { SearchForm } from '@/components/search-form';
 import { RecentRoutes } from '@/components/recent-routes';
 import { ThemeSwitcher } from '@/components/theme-switcher';
+import { TodayStats } from '@/components/today-stats';
 
 const OPERATORS = [
   { name: 'Grab', color: '#00B14F' },
@@ -80,6 +81,10 @@ export default function HomePage() {
           <SearchForm />
         </CardContent>
       </Card>
+
+      <div className="mt-4">
+        <TodayStats />
+      </div>
 
       <RecentRoutes />
 

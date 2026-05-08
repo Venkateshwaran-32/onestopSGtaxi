@@ -6,6 +6,8 @@ import { ArrowLeftRight, ArrowRight, MoveDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PlaceAutocomplete } from '@/components/place-autocomplete';
 import { VoiceSearch } from '@/components/voice-search';
+import { UseMyLocationButton } from '@/components/use-my-location';
+import { QuickDestinations } from '@/components/quick-destinations';
 import { useAppStore } from '@/lib/store';
 
 export function SearchForm({ compact = false }: { compact?: boolean }) {
@@ -39,6 +41,7 @@ export function SearchForm({ compact = false }: { compact?: boolean }) {
         value={pickup}
         onChange={setPickup}
       />
+      {!pickup && <UseMyLocationButton />}
       <div className="flex justify-center">
         <button
           type="button"
@@ -55,6 +58,7 @@ export function SearchForm({ compact = false }: { compact?: boolean }) {
         value={dropoff}
         onChange={setDropoff}
       />
+      <QuickDestinations />
       <Button type="submit" size="lg" className="w-full" disabled={!canSubmit}>
         Compare prices
         <ArrowRight className="size-4" />

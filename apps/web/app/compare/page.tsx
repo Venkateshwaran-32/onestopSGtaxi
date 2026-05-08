@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ArrowLeft, Bookmark, Check, Loader2, Route as RouteIcon, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { QuoteCard } from '@/components/quote-card';
+import { QuoteSkeleton } from '@/components/quote-skeleton';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { SurgeSparkline, WaitSaveCard } from '@/components/wait-save-card';
 import { RouteMap } from '@/components/route-map-loader';
@@ -227,10 +228,13 @@ export default function ComparePage() {
 
       <section className="mt-4 space-y-3 pb-4">
         {mutation.isPending && (
-          <div className="flex items-center justify-center gap-2 rounded-xl border bg-card p-8 text-sm text-muted-foreground">
-            <Loader2 className="size-4 animate-spin" />
-            Comparing fares across operators…
-          </div>
+          <>
+            <p className="flex items-center gap-2 px-1 text-xs text-muted-foreground">
+              <Loader2 className="size-3 animate-spin" />
+              Comparing fares across 8 operators…
+            </p>
+            <QuoteSkeleton count={4} />
+          </>
         )}
         {mutation.isError && (
           <div className="rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
@@ -246,23 +250,27 @@ export default function ComparePage() {
             </Button>
           </div>
         )}
-        {sortedQuotes.map((q) => (
-          <QuoteCard
-            key={q.operatorId}
-            quote={q}
-            isCheapest={q.operatorId === cheapestId}
-            isFastest={q.operatorId === fastestId}
-            onBook={() =>
-              handleBook(
-                q.operatorId,
-                q.deeplink,
-                q.fareSGD.mid,
-                q.surgeMultiplier,
-                q.operator.displayName,
-              )
-            }
-          />
-        ))}
+        {sortedQuotes.length > 0 && (
+          <div className="stagger space-y-3">
+            {sortedQuotes.map((q) => (
+              <QuoteCard
+                key={q.operatorId}
+                quote={q}
+                isCheapest={q.operatorId === cheapestId}
+                isFastest={q.operatorId === fastestId}
+                onBook={() =>
+                  handleBook(
+                    q.operatorId,
+                    q.deeplink,
+                    q.fareSGD.mid,
+                    q.surgeMultiplier,
+                    q.operator.displayName,
+                  )
+                }
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       <p className="mt-auto pt-4 text-center text-[11px] text-muted-foreground">
