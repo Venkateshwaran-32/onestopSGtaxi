@@ -14,6 +14,7 @@ export async function GET() {
     supabase: envStatus('NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'),
     lta_datamall: envStatus('LTA_DATAMALL_KEY'),
     mapbox: envStatus('MAPBOX_ACCESS_TOKEN'),
+    osrm: 'configured' as Status,
     google_places: envStatus('NEXT_PUBLIC_GOOGLE_PLACES_KEY'),
     posthog: envStatus('NEXT_PUBLIC_POSTHOG_KEY'),
     telegram: envStatus('TELEGRAM_BOT_TOKEN'),
