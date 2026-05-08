@@ -33,6 +33,12 @@ export default function HomePage() {
             Plan
           </Link>
           <Link
+            href="/combo"
+            className="hidden rounded-full px-2.5 py-1 text-xs font-medium text-muted-foreground transition hover:text-foreground sm:inline-block"
+          >
+            Combo
+          </Link>
+          <Link
             href="/split"
             className="hidden rounded-full px-2.5 py-1 text-xs font-medium text-muted-foreground transition hover:text-foreground sm:inline-block"
           >

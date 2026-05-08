@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
-import { ArrowLeft, Bookmark, Check, Loader2, Route as RouteIcon } from 'lucide-react';
+import { ArrowLeft, Bookmark, Check, Loader2, Route as RouteIcon, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { QuoteCard } from '@/components/quote-card';
 import { ThemeSwitcher } from '@/components/theme-switcher';
@@ -80,9 +80,17 @@ export default function ComparePage() {
 
   if (!pickup || !dropoff) return null;
 
-  const isAlreadySaved = savedRoutes.some(
+  const matchingSaved = savedRoutes.find(
     (r) => r.pickup.label === pickup.label && r.dropoff.label === dropoff.label,
   );
+  const isAlreadySaved = !!matchingSaved;
+  const target = matchingSaved?.targetSGD;
+  const cheapestNow = mutation.data?.quotes[0]?.fareSGD.mid;
+  const targetMet = target != null && cheapestNow != null && cheapestNow <= target;
+  const targetGap =
+    target != null && cheapestNow != null
+      ? Math.round((cheapestNow - target) * 100) / 100
+      : null;
 
   const handleSave = () => {
     const name = `${pickup.label} → ${dropoff.label}`;
@@ -172,6 +180,30 @@ export default function ComparePage() {
           <div className="mt-3">
             <WaitSaveCard quotes={mutation.data.quotes} />
           </div>
+          {target != null && cheapestNow != null && (
+            <div
+              className={
+                'mt-3 flex items-center gap-3 rounded-lg border px-3 py-2.5 text-sm ' +
+                (targetMet
+                  ? 'border-emerald-200 bg-emerald-50/60 dark:border-emerald-900 dark:bg-emerald-950/30'
+                  : 'border-amber-200 bg-amber-50/60 dark:border-amber-900 dark:bg-amber-950/30')
+              }
+            >
+              <Target className="size-4 shrink-0" />
+              <span className="flex-1">
+                {targetMet ? (
+                  <>
+                    <strong>Target met.</strong> Cheapest is S${cheapestNow.toFixed(2)} vs your
+                    target S${target.toFixed(2)}.
+                  </>
+                ) : (
+                  <>
+                    Above target by S${targetGap?.toFixed(2)}. Wait or set a new target.
+                  </>
+                )}
+              </span>
+            </div>
+          )}
         </>
       )}
 

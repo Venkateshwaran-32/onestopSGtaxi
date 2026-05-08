@@ -11,6 +11,7 @@ export interface SavedRoute {
   pickup: Place;
   dropoff: Place;
   createdAt: string;
+  targetSGD?: number;
 }
 
 export interface SearchHistoryItem {
@@ -41,6 +42,7 @@ interface AppState {
   savedRoutes: SavedRoute[];
   addSavedRoute: (name: string, pickup: Place, dropoff: Place) => void;
   removeSavedRoute: (id: string) => void;
+  setRouteTarget: (id: string, targetSGD: number | null) => void;
 
   history: SearchHistoryItem[];
   addHistory: (pickup: Place, dropoff: Place) => void;
@@ -88,6 +90,14 @@ export const useAppStore = create<AppState>()(
         })),
       removeSavedRoute: (id) =>
         set((s) => ({ savedRoutes: s.savedRoutes.filter((r) => r.id !== id) })),
+      setRouteTarget: (id, targetSGD) =>
+        set((s) => ({
+          savedRoutes: s.savedRoutes.map((r) =>
+            r.id === id
+              ? { ...r, targetSGD: targetSGD == null ? undefined : targetSGD }
+              : r,
+          ),
+        })),
 
       history: [],
       addHistory: (pickup, dropoff) =>
