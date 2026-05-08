@@ -8,6 +8,8 @@ import { ArrowLeft, Bookmark, Check, Loader2, Route as RouteIcon } from 'lucide-
 import { Button } from '@/components/ui/button';
 import { QuoteCard } from '@/components/quote-card';
 import { ThemeSwitcher } from '@/components/theme-switcher';
+import { SurgeSparkline, WaitSaveCard } from '@/components/wait-save-card';
+import { RouteMap } from '@/components/route-map-loader';
 import { useAppStore } from '@/lib/store';
 import { launchDeeplink } from '@/lib/launch-deeplink';
 import { track } from '@/lib/analytics';
@@ -74,6 +76,8 @@ export default function ComparePage() {
     return { cheapestId: cheapest?.operatorId, fastestId: fastest?.operatorId };
   }, [mutation.data]);
 
+  const logTrip = useAppStore((s) => s.logTrip);
+
   if (!pickup || !dropoff) return null;
 
   const isAlreadySaved = savedRoutes.some(
@@ -91,6 +95,8 @@ export default function ComparePage() {
     operatorId: import('@onestopsgtaxi/shared').OperatorId,
     deeplink: string,
     fareSGD: number,
+    surgeMultiplier: number,
+    operatorName: string,
   ) => {
     track('deeplink_clicked', {
       operator: operatorId,
@@ -98,6 +104,16 @@ export default function ComparePage() {
       pickup: pickup?.label,
       dropoff: dropoff?.label,
     });
+    if (pickup && dropoff) {
+      logTrip({
+        operatorId,
+        operatorName,
+        pickup,
+        dropoff,
+        estimatedFareSGD: fareSGD,
+        surgeMultiplier,
+      });
+    }
     launchDeeplink(operatorId, deeplink);
   };
 
@@ -125,19 +141,38 @@ export default function ComparePage() {
         <ThemeSwitcher />
       </header>
 
+      <div className="mt-4">
+        <RouteMap
+          pickup={pickup}
+          dropoff={dropoff}
+          polyline={mutation.data?.route.geometry?.coordinates}
+          height={200}
+        />
+      </div>
+
       {mutation.data && (
-        <div className="mt-4 flex items-center gap-3 rounded-lg border bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
-          <RouteIcon className="size-3.5 shrink-0" />
-          <span>
-            {mutation.data.route.distanceKm.toFixed(1)} km · ~
-            {mutation.data.route.durationMinutes} min driving
-          </span>
-          {mutation.data.route.source === 'fallback' && (
-            <span className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
-              Estimated
+        <>
+          <div className="mt-3 flex items-center gap-3 rounded-lg border bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+            <RouteIcon className="size-3.5 shrink-0" />
+            <span>
+              {mutation.data.route.distanceKm.toFixed(1)} km · ~
+              {mutation.data.route.durationMinutes} min driving
             </span>
+            {mutation.data.route.source === 'fallback' && (
+              <span className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                Estimated
+              </span>
+            )}
+          </div>
+          {mutation.data.quotes[0]?.forecast && (
+            <div className="mt-2 flex items-center justify-end pr-1">
+              <SurgeSparkline forecast={mutation.data.quotes[0].forecast} />
+            </div>
           )}
-        </div>
+          <div className="mt-3">
+            <WaitSaveCard quotes={mutation.data.quotes} />
+          </div>
+        </>
       )}
 
       <div className="mt-4 inline-flex w-fit gap-1 rounded-full bg-secondary p-1">
@@ -185,7 +220,15 @@ export default function ComparePage() {
             quote={q}
             isCheapest={q.operatorId === cheapestId}
             isFastest={q.operatorId === fastestId}
-            onBook={() => handleBook(q.operatorId, q.deeplink, q.fareSGD.mid)}
+            onBook={() =>
+              handleBook(
+                q.operatorId,
+                q.deeplink,
+                q.fareSGD.mid,
+                q.surgeMultiplier,
+                q.operator.displayName,
+              )
+            }
           />
         ))}
       </section>

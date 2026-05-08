@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import type { Place } from '@onestopsgtaxi/shared';
+import type { OperatorId, Place } from '@onestopsgtaxi/shared';
 import type { ThemeId } from './themes';
 
 export interface SavedRoute {
@@ -20,6 +20,17 @@ export interface SearchHistoryItem {
   searchedAt: string;
 }
 
+export interface TripLogEntry {
+  id: string;
+  operatorId: OperatorId;
+  operatorName: string;
+  pickup: Place;
+  dropoff: Place;
+  estimatedFareSGD: number;
+  surgeMultiplier: number;
+  loggedAt: string;
+}
+
 interface AppState {
   currentSearch: { pickup: Place | null; dropoff: Place | null };
   setCurrentPickup: (place: Place | null) => void;
@@ -34,6 +45,11 @@ interface AppState {
   history: SearchHistoryItem[];
   addHistory: (pickup: Place, dropoff: Place) => void;
   clearHistory: () => void;
+
+  tripLog: TripLogEntry[];
+  logTrip: (entry: Omit<TripLogEntry, 'id' | 'loggedAt'>) => void;
+  removeTrip: (id: string) => void;
+  clearTripLog: () => void;
 
   themeId: ThemeId;
   setTheme: (id: ThemeId) => void;
@@ -94,6 +110,22 @@ export const useAppStore = create<AppState>()(
         }),
       clearHistory: () => set({ history: [] }),
 
+      tripLog: [],
+      logTrip: (entry) =>
+        set((s) => ({
+          tripLog: [
+            {
+              ...entry,
+              id: crypto.randomUUID(),
+              loggedAt: new Date().toISOString(),
+            },
+            ...s.tripLog,
+          ].slice(0, 500),
+        })),
+      removeTrip: (id) =>
+        set((s) => ({ tripLog: s.tripLog.filter((t) => t.id !== id) })),
+      clearTripLog: () => set({ tripLog: [] }),
+
       themeId: 'default',
       setTheme: (id) => set({ themeId: id }),
     }),
@@ -104,6 +136,7 @@ export const useAppStore = create<AppState>()(
         currentSearch: state.currentSearch,
         savedRoutes: state.savedRoutes,
         history: state.history,
+        tripLog: state.tripLog,
         themeId: state.themeId,
       }),
     },

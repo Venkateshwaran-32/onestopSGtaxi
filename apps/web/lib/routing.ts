@@ -5,6 +5,10 @@ export interface RouteResult {
   distanceKm: number;
   durationMinutes: number;
   source: 'mapbox' | 'fallback';
+  geometry?: {
+    type: 'LineString';
+    coordinates: [number, number][];
+  };
 }
 
 export async function getRoute(pickup: LatLng, dropoff: LatLng): Promise<RouteResult> {
@@ -24,8 +28,8 @@ export async function getRoute(pickup: LatLng, dropoff: LatLng): Promise<RouteRe
       `https://api.mapbox.com/directions/v5/mapbox/driving/${pickup.lng},${pickup.lat};${dropoff.lng},${dropoff.lat}`,
     );
     url.searchParams.set('access_token', token);
-    url.searchParams.set('overview', 'false');
-    url.searchParams.set('geometries', 'polyline');
+    url.searchParams.set('overview', 'simplified');
+    url.searchParams.set('geometries', 'geojson');
 
     const res = await fetch(url, {
       next: { revalidate: 60 },
@@ -36,7 +40,11 @@ export async function getRoute(pickup: LatLng, dropoff: LatLng): Promise<RouteRe
     }
 
     const data = (await res.json()) as {
-      routes?: Array<{ distance: number; duration: number }>;
+      routes?: Array<{
+        distance: number;
+        duration: number;
+        geometry?: { type: 'LineString'; coordinates: [number, number][] };
+      }>;
     };
     const route = data.routes?.[0];
     if (!route) {
@@ -47,6 +55,7 @@ export async function getRoute(pickup: LatLng, dropoff: LatLng): Promise<RouteRe
       distanceKm: Math.round((route.distance / 1000) * 100) / 100,
       durationMinutes: Math.max(2, Math.round(route.duration / 60)),
       source: 'mapbox',
+      geometry: route.geometry,
     };
   } catch (err) {
     console.warn('[routing] Mapbox failed, falling back to haversine:', err);

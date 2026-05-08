@@ -66,10 +66,15 @@ export function createEstimator(config: EstimatorConfig): Estimator {
       const low = SGD(mid * (1 - config.rangeSpread));
       const high = SGD(mid * (1 + config.rangeSpread));
 
+      const opIdSeed = config.operatorId
+        .split('')
+        .reduce((acc, c) => acc * 31 + c.charCodeAt(0), 7);
+      const etaJitter = ((opIdSeed % 11) - 5) / 10;
+
       return {
         operatorId: config.operatorId,
         fareSGD: { low, mid, high },
-        etaMinutes: Math.max(1, Math.round(config.etaSeedMinutes * (0.8 + 0.4 * Math.random()))),
+        etaMinutes: Math.max(1, Math.round(config.etaSeedMinutes * (1 + etaJitter * 0.2))),
         confidence: config.confidence,
         surgeMultiplier: surge,
         breakdown,

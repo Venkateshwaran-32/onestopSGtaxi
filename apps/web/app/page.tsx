@@ -27,8 +27,20 @@ export default function HomePage() {
         </div>
         <div className="flex items-center gap-1">
           <Link
+            href="/split"
+            className="hidden rounded-full px-2.5 py-1 text-xs font-medium text-muted-foreground transition hover:text-foreground sm:inline-block"
+          >
+            Split
+          </Link>
+          <Link
+            href="/spend"
+            className="rounded-full px-2.5 py-1 text-xs font-medium text-muted-foreground transition hover:text-foreground"
+          >
+            Spend
+          </Link>
+          <Link
             href="/saved"
-            className="rounded-full px-3 py-1 text-xs font-medium text-muted-foreground transition hover:text-foreground"
+            className="rounded-full px-2.5 py-1 text-xs font-medium text-muted-foreground transition hover:text-foreground"
           >
             Saved
           </Link>

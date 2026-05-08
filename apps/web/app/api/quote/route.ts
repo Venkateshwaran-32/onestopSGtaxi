@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { bootstrapEstimators, estimateAll } from '@onestopsgtaxi/pricing';
+import {
+  bootstrapEstimators,
+  estimateAll,
+  estimateForecast,
+} from '@onestopsgtaxi/pricing';
 import { OPERATORS, buildDeeplink } from '@onestopsgtaxi/operators';
-import type { Quote, Route } from '@onestopsgtaxi/shared';
+import type { ForecastPoint, Quote, Route } from '@onestopsgtaxi/shared';
 import { getRoute } from '@/lib/routing';
 
 bootstrapEstimators();
@@ -59,11 +63,15 @@ export async function POST(req: Request) {
   const ctx = { now: new Date() };
 
   const quotesRaw: Quote[] = estimateAll(route, ctx);
-  const quotes = quotesRaw.map((q) => ({
-    ...q,
-    deeplink: buildDeeplink(q.operatorId, { pickup, dropoff, ref: 'onestopsgtaxi' }),
-    operator: OPERATORS[q.operatorId],
-  }));
+  const quotes = quotesRaw.map((q) => {
+    const forecast: ForecastPoint[] = estimateForecast(q.operatorId, route, ctx);
+    return {
+      ...q,
+      deeplink: buildDeeplink(q.operatorId, { pickup, dropoff, ref: 'onestopsgtaxi' }),
+      operator: OPERATORS[q.operatorId],
+      forecast,
+    };
+  });
 
   quotes.sort((a, b) => a.fareSGD.mid - b.fareSGD.mid);
 
@@ -72,6 +80,7 @@ export async function POST(req: Request) {
       distanceKm: routeInfo.distanceKm,
       durationMinutes: routeInfo.durationMinutes,
       source: routeInfo.source,
+      geometry: routeInfo.geometry,
     },
     quotes,
     generatedAt: ctx.now.toISOString(),

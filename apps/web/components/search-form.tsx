@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeftRight, ArrowRight, MoveDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PlaceAutocomplete } from '@/components/place-autocomplete';
+import { VoiceSearch } from '@/components/voice-search';
 import { useAppStore } from '@/lib/store';
 
 export function SearchForm({ compact = false }: { compact?: boolean }) {
@@ -58,6 +59,7 @@ export function SearchForm({ compact = false }: { compact?: boolean }) {
         Compare prices
         <ArrowRight className="size-4" />
       </Button>
+      <VoiceSearch />
     </form>
   );
 }

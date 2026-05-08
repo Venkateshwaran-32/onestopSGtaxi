@@ -59,6 +59,12 @@ export interface Quote {
   deeplink: string;
 }
 
+export interface ForecastPoint {
+  offsetMinutes: number;
+  fareSGD: number;
+  surgeMultiplier: number;
+}
+
 export interface OperatorMeta {
   id: OperatorId;
   displayName: string;

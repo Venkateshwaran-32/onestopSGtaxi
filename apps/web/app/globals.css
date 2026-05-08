@@ -180,3 +180,54 @@
     -webkit-tap-highlight-color: transparent;
   }
 }
+
+/* Leaflet map pins — branded markers without external image assets */
+.route-pin {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  font-weight: 600;
+  font-size: 11px;
+  color: white;
+}
+.route-pin-pickup {
+  background: #10b981;
+}
+.route-pin-pickup::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  background: white;
+  border-radius: 9999px;
+}
+.route-pin-dropoff {
+  background: var(--primary, #0a0a0a);
+}
+.route-pin-dropoff::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: white;
+  transform: rotate(45deg);
+}
+.route-pin-stop {
+  background: var(--primary, #0a0a0a);
+}
+.route-pin-stop > span {
+  position: relative;
+  z-index: 2;
+}
+
+.leaflet-container {
+  background: var(--muted) !important;
+  font-family: inherit;
+}
+.leaflet-control-attribution {
+  font-size: 9px !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+}
