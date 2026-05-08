@@ -40,3 +40,6 @@ coverage/
 # misc
 *.tsbuildinfo
 next-env.d.ts
+
+# local-only credentials & session notes (NEVER commit)
+.local-credentials/
