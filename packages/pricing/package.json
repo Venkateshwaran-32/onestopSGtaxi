@@ -1,0 +1,22 @@
+{
+  "name": "@onestopsgtaxi/pricing",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'no lint configured for pricing yet' && exit 0"
+  },
+  "dependencies": {
+    "@onestopsgtaxi/shared": "workspace:*",
+    "@onestopsgtaxi/operators": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
