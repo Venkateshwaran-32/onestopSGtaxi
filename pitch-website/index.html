@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OneStopSGTaxi — Pitch</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="topnav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="brand-mark">1</span>
+        <span class="brand-text">OneStop<span class="accent">SGTaxi</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#pipelines">Journeys</a>
+        <a href="#features">Features</a>
+        <a href="#sg">For SG</a>
+        <a href="#demo">Demo</a>
+        <a href="#ask">The Ask</a>
+      </div>
+      <div class="theme-switcher">
+        <button class="theme-btn is-active" data-set-theme="default"><span class="theme-dot" style="background:#0a0a0a"></span><span class="theme-tooltip">Default</span></button>
+        <button class="theme-btn" data-set-theme="redblack"><span class="theme-dot" style="background:linear-gradient(135deg,#dc2626,#1a0e0e)"></span><span class="theme-tooltip">Red &amp; Black</span></button>
+        <button class="theme-btn" data-set-theme="bumblebee"><span class="theme-dot" style="background:linear-gradient(135deg,#facc15,#0a0a0a)"></span><span class="theme-tooltip">Bumblebee</span></button>
+        <button class="theme-btn" data-set-theme="ladybug"><span class="theme-dot" style="background:linear-gradient(135deg,#dc2626,#fdf2f2)"></span><span class="theme-tooltip">Ladybug</span></button>
+        <button class="theme-btn" data-set-theme="raccoon"><span class="theme-dot" style="background:linear-gradient(135deg,#262626,#e7e5e4)"></span><span class="theme-tooltip">Raccoon</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <p class="kicker">A Pitch for Singapore Commuters</p>
+        <h1>Singapore ride-hail is<br><span class="hero-highlight">broken by design.</span></h1>
+        <p class="hero-sub">
+          You open Grab. Then Gojek. Then TADA. Then realize you forgot Ryde — and Zig, and Geolah, and Trans-Cab.
+          By the time you've checked all eight, surge spiked. You're paying S$28 for a ride that's S$19 next door.
+          <strong>We built the fix.</strong>
+        </p>
+        <div class="hero-actions">
+          <a href="#solution" class="btn btn-primary">See the Solution →</a>
+          <a href="#demo" class="btn btn-ghost">View Live Demo</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><strong>8</strong><span>Operators compared</span></div>
+          <div class="hero-stat"><strong>90</strong><span>Minute price forecast</span></div>
+          <div class="hero-stat"><strong>5</strong><span>Weeks to V1</span></div>
+          <div class="hero-stat"><strong>0</strong><span>SGD/month to run</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section" id="problem">
+      <div class="section-inner">
+        <p class="section-kicker">§ 01 — The Problem</p>
+        <h2>Eight apps. One ride. Nobody wins. <span class="accent">Except Grab.</span></h2>
+        <p class="section-lead">Singapore's ride-hail market just keeps fragmenting — Grab, Gojek, TADA, Ryde, Zig, plus newly-licensed Geolah and Trans-Cab as of Dec 2025. The result: more choice, more confusion, more overpaying.</p>
+        <div class="pain-grid">
+          <article class="pain-card"><div class="pain-icon">📱</div><h3>App Fatigue</h3><p>Opening 4 apps to compare prices is the unspoken Singapore ride-hailing tax. Surge can shift in the 30 seconds it takes to switch between them. By the time you've decided, the cheapest option is gone.</p></article>
+          <article class="pain-card"><div class="pain-icon">🎲</div><h3>Surge Roulette</h3><p>Grab's algorithm is opaque. Gojek's too. The price you saw at home isn't the price you pay at the kerb. You're guessing — and the platforms profit from that guesswork.</p></article>
+          <article class="pain-card"><div class="pain-icon">🔒</div><h3>Loyalty Silos</h3><p>GrabRewards. Ryde$. TADA tokens. Zig credits. Different currencies, different apps, no way to pool or compare. Points expire. Value evaporates.</p></article>
+          <article class="pain-card"><div class="pain-icon">🧾</div><h3>Receipts Scattered</h3><p>Eight ride-hail apps means eight receipt formats. Try filing a corporate expense report with that. Finance teams call it the "Grab tax" — they spend hours reconciling.</p></article>
+          <article class="pain-card"><div class="pain-icon">👻</div><h3>New Entrants Invisible</h3><p>Geolah and Trans-Cab got full ride-hail licences in December 2025. Most Singaporeans don't know they exist. Smaller operators die unseen — duopoly stays.</p></article>
+          <article class="pain-card"><div class="pain-icon">⏱️</div><h3>Timing Blind Spot</h3><p>What if waiting 12 minutes saves you S$8 because surge is about to ease? You'd never know — no operator has incentive to tell you to wait. The platforms want you to book NOW.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOLUTION -->
+    <section class="section section-dark" id="solution">
+      <div class="section-inner">
+        <p class="section-kicker">§ 02 — The Solution</p>
+        <h2>OneStopSGTaxi — <span class="accent">Skyscanner for SG ride-hail.</span></h2>
+        <p class="section-lead">One search. Eight operators ranked. A 90-minute price forecast. One tap to deeplink into the cheapest app. No accounts. No new wallet. No new payment flow. Just a browser tab between you and the cheapest ride in Singapore.</p>
+        <div class="solution-flow">
+          <div class="flow-step"><div class="flow-number">01</div><h3>Search</h3><p>Type or speak "Orchard to Changi". Autocomplete picks up SG places. Voice search runs in the browser — no AI, no cost.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><div class="flow-number">02</div><h3>Compute</h3><p>Public rate cards × surge model × Mapbox routing. Eight fare estimates, ranked cheapest first, in under one second.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><div class="flow-number">03</div><h3>Forecast</h3><p>90-minute price horizon per operator. "Wait 12 min, save S$8" surfaces only when waiting actually pays. Honest signals.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><div class="flow-number">04</div><h3>Deeplink</h3><p>Tap your chosen operator. The app opens with pickup and dropoff pre-filled. Booking happens there. We never touch your payment.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USER JOURNEYS -->
+    <section class="section" id="pipelines">
+      <div class="section-inner">
+        <p class="section-kicker">§ 03 — User Journeys</p>
+        <h2>Three users. <span class="accent">Three pipelines.</span></h2>
+        <p class="section-lead">Different riders, different needs. The platform adapts. Click a persona to see their flow.</p>
+        <div class="persona-tabs">
+          <button class="persona-tab is-active" data-persona="commuter"><span class="persona-icon">🚕</span><span class="persona-label">Daily Commuter</span><span class="persona-desc">Price-sensitive, recurring routes</span></button>
+          <button class="persona-tab" data-persona="business"><span class="persona-icon">💼</span><span class="persona-label">Business Traveller</span><span class="persona-desc">Expense-tracking, receipts</span></button>
+          <button class="persona-tab" data-persona="group"><span class="persona-icon">👥</span><span class="persona-label">Group Trip</span><span class="persona-desc">Multi-stop, split fares</span></button>
+        </div>
+        <div class="persona-content is-active" data-persona-content="commuter">
+          <div class="pipeline">
+            <div class="pipeline-step"><div class="pipeline-num">1</div><div class="pipeline-body"><h4>Save your home and work</h4><p>One tap to mark routes as "Home" and "Office". They auto-load on the home screen each morning.</p></div></div>
+            <div class="pipeline-step"><div class="pipeline-num">2</div><div class="pipeline-body"><h4>Open the PWA from your home screen</h4><p>Add to Home Screen turns the webapp into an app icon. No App Store install required.</p></div></div>
+            <div class="pipeline-step"><div class="pipeline-num">3</div><div class="pipeline-body"><h4>See the cheapest right now</h4><p>Eight operators ranked. Cheapest highlighted. Surge multiplier visible. Forecast sparkline shows trend.</p></div></div>
+            <div class="pipeline-step"><div class="pipeline-num">4</div><div class="pipeline-body"><h4>Wait or go — your call</h4><p>"Wait 12 min, save S$8" surfaces when waiting saves more than a coffee. You decide.</p></div></div>
+            <div class="pipeline-step"><div class="pipeline-num">5</div><div class="pipeline-body"><h4>Tap the cheapest, ride</h4><p>Deeplink opens that operator's app with the trip pre-filled. Book and ride. We log it for your spend tracker.</p></div></div>
+          </div>
+        </div>
+        <div class="persona-content" data-persona-content="business">
+          <div class="pipeline">
+            <div class="pipeline-step"><div class="pipeline-num">1</div><div class="pipeline-body"><h4>Use across all your client trips</h4><p>Every Book tap logs the operator, route, and estimated fare. No setup required.</p></div></div>
+            <div class="pipeline-step"><div class="pipeline-num">2</div><div class="pipeline-body"><h4>Open Spend at month-end</h4><p>All-time total at the top. Monthly breakdown below. Per-operator split for each month.</p></div></div>
+            <div class="pipeline-step"><div class="pipeline-num">3</div><div class="pipeline-body"><h4>Cross-check with operator receipts</h4><p>Estimated fares (what you intended to pay) vs. actual receipts. Discrepancies surface fast.</p></div></div>
+            <div class="pipeline-step"><div class="pipeline-num">4</div><div class="pipeline-body"><h4>File the expense report</h4><p>One screenshot of the monthly total + per-operator breakdown is enough for finance. Done.</p></div></div>
+          </div>
+        </div>
+        <div class="persona-content" data-persona-content="group">
+          <div class="pipeline">
+            <div class="pipeline-step"><div class="pipeline-num">1</div><div class="pipeline-body"><h4>Open Trip Splitter</h4><p>One pickup, up to six dropoffs. Add each friend's destination.</p></div></div>
+            <div class="pipeline-step"><div class="pipeline-num">2</div><div class="pipeline-body"><h4>Tap Optimize</h4><p>Brute-force TSP runs all permutations in milliseconds. The cheapest dropoff order wins.</p></div></div>
+            <div class="pipeline-step"><div class="pipeline-num">3</div><div class="pipeline-body"><h4>See the savings vs worst order</h4><p>"Best order saves S$X (Y km)" — clear, sharable, defensible to the group chat.</p></div></div>
+            <div class="pipeline-step"><div class="pipeline-num">4</div><div class="pipeline-body"><h4>Book via your operator's multi-stop</h4><p>CDG Premier and Grab Plus support multi-stop. Enter the optimized order in their app and ride.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section section-dark" id="features">
+      <div class="section-inner">
+        <p class="section-kicker">§ 04 — The Arsenal</p>
+        <h2>Every weapon you need. <span class="accent">Zero LLM bills.</span></h2>
+
+        <!-- TIER: GAME CHANGERS -->
+        <div class="feature-tier">
+          <div class="tier-header">
+            <span class="tier-badge tier-killer">GAME CHANGERS</span>
+            <span class="tier-desc">The stuff that makes people open the app three times a week</span>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card feature-hero-card">
+              <span class="feature-tag">The Showstopper</span>
+              <h3>Wait &amp; Save Coach</h3>
+              <p>A 90-minute price forecast for every operator. Surge isn't synchronized — different platforms peak at different moments. When waiting genuinely saves you money, we tell you exactly how long and how much. When it doesn't, we stay quiet. No upsell prompts. No fake urgency. Just deterministic surge math, no LLM bills, no hallucinations. The forecast updates the moment you re-open the page.</p>
+            </article>
+            <article class="feature-card feature-card-killer">
+              <span class="feature-tag-sm">Real Map</span>
+              <h3>Live Route Map</h3>
+              <p>Pickup pin. Dropoff pin. Polyline between them. Auto-fits to bounds. Built on Leaflet + free OpenStreetMap tiles — no API keys, no rate limits. When you add a Mapbox token the polyline upgrades from straight-line to actual road geometry. Feels like Grab. Costs nothing.</p>
+            </article>
+            <article class="feature-card feature-card-killer">
+              <span class="feature-tag-sm">Hands-Free</span>
+              <h3>Voice-to-Route</h3>
+              <p>Say "Orchard to Changi". The browser's Web Speech API does the transcription locally. A deterministic regex parser splits on "to/from", fuzzy-matches against the SG places list and your recent history. Both fields filled. No API call. No AI cost. Works offline-first.</p>
+            </article>
+          </div>
+        </div>
+
+        <!-- TIER: POWER MOVES -->
+        <div class="feature-tier">
+          <div class="tier-header">
+            <span class="tier-badge tier-power">POWER MOVES</span>
+            <span class="tier-desc">The features that turn it from "search tool" into "daily driver"</span>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <span class="feature-tag-sm">Group Algo</span>
+              <h3>Trip Splitter (TSP)</h3>
+              <p>One pickup, up to six dropoffs. Brute-force permutation finds the cheapest stop order. Real savings — the worst order can cost 30% more than the best. CDG Premier and Grab Plus support multi-stop natively; punch in the optimized order, save real money.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-tag-sm">Expense Layer</span>
+              <h3>Spend Tracker</h3>
+              <p>Every tap on Book auto-logs the operator, route, and estimated fare. Monthly totals. Per-operator breakdown. Per-trip list. The expense report no operator gives you. We disclose plainly: it tracks intended fares (what you tapped), not real receipts.</p>
+            </article>
+            <article class="feature-card">
+              <span class="feature-tag-sm">Honest Signal</span>
+              <h3>Surge Forecast Sparkline</h3>
+              <p>A tiny 90-minute trend chart, inline with the route info. Trending down means surge will ease. Trending up means book now. Glanceable in 200ms. Built on the same forecast engine, surfaced where it's useful instead of buried in a settings menu.</p>
+            </article>
+          </div>
+        </div>
+
+        <!-- TIER: TABLE STAKES -->
+        <div class="feature-tier">
+          <div class="tier-header">
+            <span class="tier-badge tier-base">TABLE STAKES</span>
+            <span class="tier-desc">The basics done right — the parts most "MVPs" half-ass</span>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>Progressive Web App</h3>
+              <p>"Add to Home Screen" gives you an app icon. Standalone display mode. Manifest, dynamic icons (32/180/192/512/maskable), offline shell. Closer to Grab's iOS app than most native apps are to themselves.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Five Themes</h3>
+              <p>Default, Red &amp; Black, Bumblebee, Ladybug, Raccoon. Theme persists across sessions. Tied to the same shadcn token system, so every new component skins automatically. Try the switcher in the nav bar above.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Privacy-First</h3>
+              <p>Search and compare without signing in. Zustand store + localStorage covers saved routes and history for guests. Sign-in only required to sync across devices (Supabase magic-link). We don't sell data. We never see your real ride.</p>
+            </article>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOR SG -->
+    <section class="section" id="sg">
+      <div class="section-inner">
+        <p class="section-kicker">§ 05 — Why Singapore Needs This</p>
+        <h2>Value for <span class="accent">every stakeholder.</span></h2>
+        <div class="stakeholder-grid">
+          <article class="stakeholder-card"><h3>For Commuters</h3><ul><li>Lowest fare automatically — no app-juggling</li><li>Wait-or-go signal saves real money</li><li>Receipts and history in one place</li><li>Zero new accounts, zero new payment flows</li></ul></article>
+          <article class="stakeholder-card"><h3>For Smaller Operators</h3><ul><li>Free user-acquisition channel for TADA, Ryde, Zig, Geolah, Trans-Cab</li><li>Level playing field vs Grab's ad budget</li><li>Brand exposure to commuters who'd never search them out</li><li>Affiliate referrals — pay only for booked trips</li></ul></article>
+          <article class="stakeholder-card"><h3>For Singapore</h3><ul><li>Real price competition pressures the duopoly</li><li>Helps newly-licensed operators (LTA Dec 2025) build users</li><li>Aligned with PTC fare-transparency mandate</li><li>SG-built, SG-hosted, SG-first — keeps the pie local</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMO -->
+    <section class="section section-dark" id="demo">
+      <div class="section-inner">
+        <p class="section-kicker">§ 06 — Live Demo</p>
+        <h2>It's already <span class="accent">built and running.</span></h2>
+        <p class="section-lead">Not a deck. Not a Figma. A working webapp that returns 8 ranked operator quotes in under a second on free-tier infrastructure. Five weeks from idea to deploy-ready.</p>
+        <div class="demo-box">
+          <div class="demo-header"><span class="demo-dot" style="background:#ff5f57"></span><span class="demo-dot" style="background:#febc2e"></span><span class="demo-dot" style="background:#28c840"></span><span class="demo-url">localhost:3000</span></div>
+          <div class="demo-body">
+            <p class="demo-text"><strong>Stack:</strong> Next.js 15 (App Router) + TypeScript strict<br><strong>UI:</strong> Tailwind v4 + shadcn/ui + Leaflet maps<br><strong>Data:</strong> Supabase + Mapbox + PostHog<br><strong>Repo:</strong> Turborepo monorepo, pnpm workspaces<br><strong>Cost:</strong> SGD 0/month on free tiers</p>
+            <div class="demo-events">
+              <span class="demo-event-chip">Compare 8 operators</span>
+              <span class="demo-event-chip">Wait &amp; Save coach</span>
+              <span class="demo-event-chip">Voice search</span>
+              <span class="demo-event-chip">Trip splitter (TSP)</span>
+              <span class="demo-event-chip">Live route map</span>
+              <span class="demo-event-chip">Spend tracker</span>
+              <span class="demo-event-chip">PWA install</span>
+              <span class="demo-event-chip">5 themes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE ASK -->
+    <section class="section section-accent" id="ask">
+      <div class="section-inner">
+        <p class="section-kicker">§ 07 — The Ask</p>
+        <h2>What we need to make it real.</h2>
+        <div class="ask-grid">
+          <article class="ask-card"><div class="ask-number">1</div><h3>50 Beta Riders</h3><p>Singapore-based commuters who'll use the app for two weeks and tell us where the fare estimates are wrong. Real surge data is the moat.</p></article>
+          <article class="ask-card"><div class="ask-number">2</div><h3>Operator Intros</h3><p>A warm intro to TADA, Ryde, Zig, Geolah, or Trans-Cab partnership teams. Affiliate referrals + verified deeplink specs unlock real revenue.</p></article>
+          <article class="ask-card"><div class="ask-number">3</div><h3>Press &amp; Word-of-Mouth</h3><p>Vulcan Post, Tech in Asia, r/singapore, the SG Telegram channels. We need 10,000 monthly active before V2 economics make sense.</p></article>
+          <article class="ask-card"><div class="ask-number">4</div><h3>Honest Feedback</h3><p>Open the webapp on your phone. Tap around. Tell us where it still feels web-y instead of app-y. We iterate weekly.</p></article>
+        </div>
+        <div class="ask-cta">
+          <h3>We're not asking for funding. We're asking for a chance to prove it works.</h3>
+          <p>Five weeks built it. Five months of usage will prove if Singapore wants a Skyscanner for taxis. If it doesn't, we move on. If it does, every ride-hail market follows.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand"><span class="brand-mark">1</span><span class="brand-text">OneStop<span class="accent">SGTaxi</span></span></div>
+        <div class="footer-contact">
+          <a href="https://onestopsgtaxi.com" target="_blank" rel="noopener noreferrer" class="footer-link"><svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Open Webapp</a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="footer-link"><svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>Source</a>
+          <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="footer-link"><svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+        </div>
+        <p class="footer-sub">Built in Singapore. By Singaporeans. For Singaporeans.</p>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
