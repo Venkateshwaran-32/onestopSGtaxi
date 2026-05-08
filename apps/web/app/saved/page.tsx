@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ThemeSwitcher } from '@/components/theme-switcher';
+import { PushToggle } from '@/components/push-toggle';
 import { useAppStore } from '@/lib/store';
 
 const SGD = (n: number) =>
@@ -135,6 +136,10 @@ export default function SavedPage() {
         <h1 className="flex-1 text-base font-semibold">Saved & history</h1>
         <ThemeSwitcher />
       </header>
+
+      <div className="mt-4">
+        <PushToggle />
+      </div>
 
       <section className="mt-6">
         <h2 className="text-xs uppercase tracking-wider text-muted-foreground">
